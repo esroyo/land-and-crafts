@@ -1,0 +1,25 @@
+---
+const { project } = Astro.props;
+---
+<leaflet-marker data-project-coordinates={ project.data.coordinates } data-project-title={ project.data.title } data-project-id={ project.id }/>
+
+<script>
+  import { eventBus } from '../client.ts';
+  const { Marker } = window.L;
+  class LeafletMarker extends HTMLElement {
+    connectedCallback() {
+      const projectCoordinates = this.dataset.projectCoordinates?.split(',').map(Number) as [number, number];
+      const projectTitle = this.dataset.projectTitle;
+      // L.Map.addInitHook(function () {
+      //   const marker = new L.Marker(coordinates).addTo(this);
+      //   marker.bindPopup(title).openPopup();
+      // });
+      const marker = new Marker(projectCoordinates!).addTo(globalThis.mainMap);
+      marker.bindTooltip(projectTitle!);
+      marker.on('click', () => {
+        eventBus.dispatchEvent(new CustomEvent<DOMStringMap>(`project:show-details`, { detail: this.dataset }));
+      });
+    }
+  }
+  customElements.define('leaflet-marker', LeafletMarker);
+</script>

@@ -1,0 +1,55 @@
+---
+import ProjectDetails from '../components/ProjectDetails.astro';
+
+const { project } = Astro.props;
+
+// background layers: image on bottom, gradient on top
+const backgroundImage = `
+  linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .8) 20%, rgba(0, 0, 0, .9) 100%),
+  url(${project.data.cover.src});
+`;
+---
+<project-card
+    style={ `--backgroundImage: ${backgroundImage}` }
+    data-project-id={ project.id }
+    data-project-coordinates={ project.data.coordinates }
+>
+    <div>
+        {/* <h3>{ project.data.title }</h3> */}
+        <div set:html={ project.data.description } >{/* <a href=`/projects/${project.id}`>+</a> */}</div>
+    </div>
+    <template><ProjectDetails { project } /></template>
+</project-card>
+
+<script>
+  import { eventBus } from '../client.ts';
+  class ProjectCard extends HTMLElement {
+      connectedCallback() {
+          this.addEventListener('click', () => {
+            eventBus.dispatchEvent(new CustomEvent<DOMStringMap>(`project:show-details`, { detail: this.dataset }));
+        });
+    }
+  }
+  customElements.define('project-card', ProjectCard);
+</script>
+
+<style>
+    project-card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        text-align: right;
+        color: white;
+        padding: 2em 2em 2em 5em;
+
+        background-image: var(--backgroundImage);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    h3:first-child {
+        margin-top: 0;
+    }
+</style>

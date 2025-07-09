@@ -1,0 +1,50 @@
+---
+const { project } = Astro.props;
+---
+<project-details
+    data-project-id={ project.id }
+    data-project-coordinates={ project.data.coordinates }
+>
+    <div set:html={ project.rendered.html } />
+    <button class="close-button" aria-label="Close panel">&times;</button>
+</project-details>
+
+<script>
+  import { eventBus } from '../client.ts';
+  class ProjectDetails extends HTMLElement {
+    connectedCallback() {
+          this.addEventListener('click', (ev) => {
+            if (ev.target?.matches('.close-button')) {
+                eventBus.dispatchEvent(new CustomEvent<DOMStringMap>(`project:show-details`, { detail: this.dataset }));
+            }
+        });
+    }
+  }
+  customElements.define('project-details', ProjectDetails);
+</script>
+
+<style>
+project-details {
+  display: block;
+  position: relative;
+  padding: 2rem;
+  img { width: 100%; }
+}
+
+.close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+  color: #555;
+  transition: color 0.2s ease;
+}
+
+.close-button:hover {
+  color: #000;
+}
+</style>

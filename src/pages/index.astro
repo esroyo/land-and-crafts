@@ -1,11 +1,44 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Main from '../components/Main.astro';
+import Layout from '../layouts/Layout.astro';
+import LeafletMarker from '../components/LeafletMarker.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+const projects = await getCollection('projects');
+const coordinates = projects.map(p => p.data.coordinates).reduce((acc, cur) => [acc[0] + cur[0], acc[1] + cur[1]], [0, 0]).map((sum: number) => sum / projects.length);
 ---
 
 <Layout>
-	<Welcome />
+	<Main>
+        <div slot="sidebar">
+            { projects.map((project) => <ProjectCard { project } />) }
+        </div>
+        <div id="map" slot="map">
+            { projects.map((project) => <LeafletMarker { project } />) }
+        </div>
+    </Main>
 </Layout>
+
+<script define:vars={ { coordinates } }>
+    const { Map, TileLayer } = window.L;
+    var map = new Map('map').setView(coordinates, 7);
+    var tile = new TileLayer('https://b.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+    window.mainMap = map;
+</script>
+
+<style>
+#map {
+    height: 100%;
+    width: 100%;
+}
+
+#details {
+    height: 100%;
+    width: 100%;
+}
+</style>
