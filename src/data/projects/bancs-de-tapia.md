@@ -2,7 +2,7 @@
 title: Bancs de tàpia
 description: "<strong><em>Bancs de tapia, bodega Cortijo los Aguilares</strong></em>: fabricats amb materials locals i  dissenyats per prolongar l’experiència de les persones que visiten les bodegues."
 coordinates: [36.78436, -5.097255]
-cover: /src/assets/projects/bancs-de-tapia-001.jpg
+cover: ../../assets/projects/bancs-de-tapia-001.jpg
 ---
 
 ## Bancs de Tapia
@@ -23,5 +23,5 @@ Mètode de construcció de tàpia o terra piconada que consisteix a elaborar mur
 ### Ubicació
 Cortijo _Los Aguilares_ de Ronda en Málaga.
 
-![](/src/assets/projects/bancs-de-tapia-001.jpg)
-![](/src/assets/projects/bancs-de-tapia-002.jpg)
+![](../../assets/projects/bancs-de-tapia-001.jpg)
+![](../../assets/projects/bancs-de-tapia-002.jpg)

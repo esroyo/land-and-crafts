@@ -1,11 +1,13 @@
 ---
+import { render } from 'astro:content';
 const { project } = Astro.props;
+const { Content } = await render(project);
 ---
 <project-details
     data-project-id={ project.id }
     data-project-coordinates={ project.data.coordinates }
 >
-    <div set:html={ project.rendered.html } />
+    <Content />
     <button class="close-button" aria-label="Close panel">&times;</button>
 </project-details>
 

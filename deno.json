@@ -22,6 +22,7 @@
     "leaflet": "npm:leaflet@^2.0.0-alpha",
     "neotraverse/modern": "npm:neotraverse/modern",
     "p-limit": "npm:p-limit",
+    "sharp": "npm:sharp",
     "unstorage": "npm:unstorage",
     "zod": "npm:zod"
   },

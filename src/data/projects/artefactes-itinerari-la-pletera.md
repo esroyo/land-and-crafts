@@ -2,7 +2,7 @@
 title: Artefactes Itinerari La Pletera
 description: "<strong><em>Mobiliari públic, Itinerari La Pletera</em></strong>: col.lecció de peces artístiques i funcionals, sostenibles, i artesanals realitzades amb fusta massissa i fibres vegetals locals."
 coordinates: [42.024528, 3.192778]
-cover: /src/assets/projects/artefactes-lapletera-001.avif
+cover: ../../assets/projects/artefactes-lapletera-001.avif
 ---
 
 ## Artefactes Itinerari La Pletera
@@ -21,6 +21,6 @@ Domestic Wild i [Tramats.cat](https://tramats.cat/que-fem/la-pletera-2022/)
 ### Ubicació
 Parc natural del Montgrí, les Illes Medes i el Baix Ter. Itinerari Accesible La Pletera, Catalunya.
 
-![](/src/assets/projects/artefactes-lapletera-001.avif)
-![](/src/assets/projects/artefactes-lapletera-002.avif)
-![](/src/assets/projects/artefactes-lapletera-003.avif)
+![](../../assets/projects/artefactes-lapletera-001.avif)
+![](../../assets/projects/artefactes-lapletera-002.avif)
+![](../../assets/projects/artefactes-lapletera-003.avif)

@@ -1,12 +1,14 @@
 ---
+import { getImage } from 'astro:assets';
 import ProjectDetails from '../components/ProjectDetails.astro';
 
 const { project } = Astro.props;
+const optimizedBackground = await getImage({ src: project.data.cover });
 
 // background layers: image on bottom, gradient on top
 const backgroundImage = `
   linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .8) 20%, rgba(0, 0, 0, .9) 100%),
-  url(${project.data.cover.src});
+  url(${optimizedBackground.srcSet.values[0]?.url || optimizedBackground.src});
 `;
 ---
 <project-card

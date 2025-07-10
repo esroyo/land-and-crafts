@@ -2,7 +2,7 @@
 title: Criatures Invertides
 description: "<strong><em>Criatures Invertides, Barranc de la Palanca</em></strong>: elements dissenyats des d’una perspectiva biocèntrica i multiespècie. Fabricats a partir de residus de camp."
 coordinates: [40.178750, -0.163437]
-cover: /src/assets/projects/criatures-invertides-001.jpg
+cover: ../../assets/projects/criatures-invertides-001.jpg
 ---
 
 ## Criatures invertides sobre el Barranc de la Palanca
@@ -22,7 +22,7 @@ Carmela Forés i Carles Escrig
 ### Ubicació
 Barranc de la Palanca, Les Useres, Castelló.
 
-![](/src/assets/projects/criatures-invertides-003.jpg)
-![](/src/assets/projects/criatures-invertides-002.jpg)
-![](/src/assets/projects/criatures-invertides-001.jpg)
-![](/src/assets/projects/criatures-invertides-004.jpg)
+![](../../assets/projects/criatures-invertides-003.jpg)
+![](../../assets/projects/criatures-invertides-002.jpg)
+![](../../assets/projects/criatures-invertides-001.jpg)
+![](../../assets/projects/criatures-invertides-004.jpg)

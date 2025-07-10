@@ -23,7 +23,7 @@ const coordinates = projects.map(p => p.data.coordinates).reduce((acc, cur) => [
 
 <script define:vars={ { coordinates } }>
     const { Map, TileLayer } = window.L;
-    var map = new Map('map').setView(coordinates, 7);
+    var map = new Map('map').setView(coordinates, 6);
     var tile = new TileLayer('https://b.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
