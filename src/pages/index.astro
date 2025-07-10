@@ -15,20 +15,20 @@ const coordinates = projects.map(p => p.data.coordinates).reduce((acc, cur) => [
         <div slot="sidebar">
             { projects.map((project) => <ProjectCard { project } />) }
         </div>
-        <div id="map" slot="map">
+        <div id="map" slot="map" data-coordinates={ coordinates }>
             { projects.map((project) => <LeafletMarker { project } />) }
         </div>
     </Main>
 </Layout>
 
-<script define:vars={ { coordinates } }>
-    const { Map, TileLayer } = window.L;
-    var map = new Map('map').setView(coordinates, 6);
-    var tile = new TileLayer('https://b.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
-    window.mainMap = map;
+<script>
+    import { Map, TileLayer } from 'leaflet';
+    const el = document.querySelector('#map');
+    const map = new Map(el).setView(el.dataset.coordinates.split(','), 6);
+    const tile = new TileLayer('https://b.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
 </script>
 
 <style>

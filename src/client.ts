@@ -1,7 +1,12 @@
-export const eventBus = new EventTarget();
+import { LatLng, Map } from 'leaflet';
+const { details } = window;
 
-const { details, L, mainMap } = window;
-const { LatLng } = L;
+let map: Map;
+Map.addInitHook(function (this: Map) {
+    map = this;
+});
+
+export const eventBus = new EventTarget();
 
 eventBus.addEventListener(
     'project:show-details',
@@ -20,7 +25,7 @@ eventBus.addEventListener(
             );
             if (tmpl) {
                 details.replaceChildren(tmpl.content.cloneNode(true));
-                mainMap.flyTo(
+                map?.flyTo(
                     new LatLng(
                         projectCoordinates[0],
                         projectCoordinates[1] + 1,
