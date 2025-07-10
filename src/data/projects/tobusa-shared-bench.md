@@ -1,6 +1,6 @@
 ---
 title: Tobusa shared bench
-description: "<strong><em>Bancs de tapia, bodega Cortijo los Aguilares</strong></em>: fabricats amb materials locals i  dissenyats per prolongar l’experiència de les persones que visiten les bodegues."
+description: "<strong><em>Tobusa bench</strong></em>: transforma restes de troncs d'arbres en seients i refugis per a la fauna, apilant-los amb forats mecanitzats per a insectes."
 coordinates: [46.00755007298914, 11.415301027103986]
 cover: ../../assets/projects/tobusa-bench-002.jpg
 ---
