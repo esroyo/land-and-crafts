@@ -1,4 +1,5 @@
 ---
+import '../../public/inter.css';
 import { description, title } from '../common.ts';
 ---
 <!doctype html>
@@ -6,13 +7,13 @@ import { description, title } from '../common.ts';
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
+        <link rel="preconnect" href="https://b.tile.openstreetmap.fr" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
+		<meta name="generator" content={ Astro.generator } />
         <meta name="description" content={ description } />
         <title>{ title }</title>
-        <link rel="stylesheet" href="/inter.css" />
-        <link rel="stylesheet" href="/leaflet.css" />
         <script src="/leaflet-global.js" is:inline></script>
+        <link rel="stylesheet" href="/leaflet.css" />
 	</head>
 	<body>
 		<slot />
