@@ -1,12 +1,7 @@
 ---
-import { title } from '../common.ts';
 ---
 <main>
     <section class="sidebar">
-        <details class="header">
-            <summary>{ title }</summary>
-            <p>Land & Crafts Map és una xarxa d'artefactes site-específics que explora la relació entre l'ésser humà i la natura des d'una perspectiva biocèntrica i multiespècie. El projecte combina l'experimentació amb materials naturals i processos artesans locals amb experiències estètiques contemplatives per fomentar la consciència ecosistèmica i l'empatia cap a altres formes de vida, qüestionant els enfocaments convencionals del disseny per crear productes i experiències, integrades en entorns naturals, des d’una estètica ecològica.</p>
-        </details>
         <slot name="sidebar" />
     </section>
     <section class="map">
@@ -17,7 +12,7 @@ import { title } from '../common.ts';
     </section>
 </main>
 
-<style>
+<style define:vars={ { backgroundColor: '#182121' } }>
 main {
   height: 100%;
   display: grid;
@@ -32,18 +27,9 @@ main {
   }
 }
 
-.header {
-    color: white;
-    margin: 1rem;
-    & summary {
-        font-size: 1.2rem;
-        font-weight: bolder;
-    }
-}
-
 .sidebar {
   grid-area: sidebar;
-  background: black;
+  background: var(--backgroundColor);
 }
 
 .map {

@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { title } from '../common.ts';
 
 import Main from '../components/Main.astro';
 import Layout from '../layouts/Layout.astro';
@@ -14,6 +15,10 @@ const coordinates = projects.map(p => p.data.coordinates).reduce((acc, cur) => [
 <Layout>
 	<Main>
         <div slot="sidebar">
+            <div class="header">
+                <header>{ title }</header>
+                <p>Mapa d'artefactes <em>site-específics</em> que exploren la relació entre l'ésser humà i la natura, dissenyats des d'una perspectiva biocèntrica i multiespècie.</p>
+            </div>
             { projects.map((project) => <ProjectCard { project } />) }
         </div>
         <div id="map" slot="map" data-coordinates={ coordinates }>
@@ -45,5 +50,19 @@ const coordinates = projects.map(p => p.data.coordinates).reduce((acc, cur) => [
 #details {
     height: 100%;
     width: 100%;
+}
+
+.header {
+    color: white;
+    padding: 1rem;
+    & header {
+        font-size: 1.2rem;
+        font-weight: bolder;
+    }
+    & p {
+        margin-top: .4rem;
+        margin-bottom: 1.4rem;
+        font-size: .9rem;
+    }
 }
 </style>
