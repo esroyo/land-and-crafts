@@ -1,6 +1,6 @@
 ---
 title: Bancs de tàpia
-description: "<strong><em>Bancs de tapia, bodega Cortijo los Aguilares</strong></em>: fabricats amb materials locals i  dissenyats per prolongar l’experiència de les persones que visiten les bodegues."
+description: "<span><strong>Bancs de tapia, bodega Cortijo los Aguilares</strong> &mdash; <em>fabricats amb materials locals i  dissenyats per prolongar l’experiència de les persones que visiten les bodegues.</em></span>"
 coordinates: [36.78436, -5.097255]
 cover: ../../assets/projects/bancs-de-tapia-001.jpg
 ---

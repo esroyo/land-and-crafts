@@ -11,6 +11,7 @@
         "@deno/astro-adapter": "npm:@deno/astro-adapter@^0.3.1",
         "@oslojs/encoding": "npm:@oslojs/encoding",
         "@types/leaflet": "npm:@types/leaflet@^1.9.19",
+        "@xz/fonts": "npm:@xz/fonts@1.0.2",
         "astro": "npm:astro@^5.11.0",
         "clsx": "npm:clsx",
         "cookie": "npm:cookie",

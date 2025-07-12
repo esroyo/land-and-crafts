@@ -1,6 +1,6 @@
 ---
 title: Artefactes Itinerari La Pletera
-description: "<strong><em>Mobiliari públic, Itinerari La Pletera</em></strong>: col.lecció de peces artístiques i funcionals, sostenibles, i artesanals realitzades amb fusta massissa i fibres vegetals locals."
+description: "<span><strong>Mobiliari públic, Itinerari La Pletera</strong> &mdash; <em>col.lecció de peces artístiques i funcionals, sostenibles, i artesanals realitzades amb fusta massissa i fibres vegetals locals.</em></span>"
 coordinates: [42.024528, 3.192778]
 cover: ../../assets/projects/artefactes-lapletera-001.avif
 ---

@@ -5,17 +5,14 @@ const { project } = Astro.props;
 const optimizedBackground = await getImage({ src: project.data.cover });
 
 // background layers: image on bottom, gradient on top
-const backgroundImage = `
-  linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .8) 20%, rgba(0, 0, 0, .9) 100%),
-  url(${optimizedBackground.srcSet.values[0]?.url || optimizedBackground.src});
-`;
+const backgroundImage = `url(${optimizedBackground.srcSet.values[0]?.url || optimizedBackground.src});`;
 ---
 <project-card
     style={ `--backgroundImage: ${backgroundImage}` }
     data-project-id={ project.id }
     data-project-coordinates={ project.data.coordinates }
 >
-    <div set:html={ project.data.description }></div>
+    <div set:html={ project.data.description } class="description"></div>
 </project-card>
 
 <script>
@@ -38,15 +35,31 @@ const backgroundImage = `
 
         text-align: right;
         color: white;
-        padding: 2em 2em 2em 5em;
 
         background-image: var(--backgroundImage);
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
+
+        cursor: pointer;
     }
 
-    h3:first-child {
-        margin-top: 0;
+.description {
+    margin-top: 6rem;
+    padding: 1rem;
+    line-height: 1.5rem;
+    font-size: .9rem;
+    background: rgba(0, 0, 0, .45);
+    /* background: linear-gradient(90deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.45) 50%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 1) 100%); */
+
+    span {
+        white-space: break-spaces;
+        padding: .4rem .6rem;
+        background-color: rgba(0, 0, 0, .8);
     }
+
+    strong {
+        font-size: 1rem;
+    }
+}
 </style>

@@ -1,6 +1,6 @@
 ---
 title: Tobusa shared bench
-description: "<strong><em>Tobusa bench</strong></em>: transforma restes de troncs d'arbres en seients i refugis per a la fauna, apilant-los amb forats mecanitzats per a insectes."
+description: "<span><strong>Tobusa bench</strong> &mdash; <em>transforma restes de troncs d'arbres en seients i refugis per a la fauna, apilant-los amb forats mecanitzats per a insectes.</em></span>"
 coordinates: [46.00755007298914, 11.415301027103986]
 cover: ../../assets/projects/tobusa-bench-002.jpg
 ---

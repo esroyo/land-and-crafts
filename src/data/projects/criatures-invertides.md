@@ -1,6 +1,6 @@
 ---
 title: Criatures Invertides
-description: "<strong><em>Criatures Invertides, Barranc de la Palanca</em></strong>: elements dissenyats des d’una perspectiva biocèntrica i multiespècie. Fabricats a partir de residus de camp."
+description: "<span><strong>Criatures Invertides, Barranc de la Palanca</strong> &mdash; <em>elements dissenyats des d’una perspectiva biocèntrica i multiespècie. Fabricats a partir de residus de camp.</em></span>"
 coordinates: [40.178750, -0.163437]
 cover: ../../assets/projects/criatures-invertides-001.jpg
 ---
