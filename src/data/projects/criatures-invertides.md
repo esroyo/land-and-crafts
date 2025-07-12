@@ -5,7 +5,7 @@ coordinates: [40.178750, -0.163437]
 cover: ../../assets/projects/criatures-invertides-001.jpg
 ---
 
-## Criatures invertides sobre el Barranc de la Palanca
+## Criatures invertides
 
 Elements dissenyats des d’una perspectiva biocèntrica i multiespècie. El
 resultat final qüestiona els models de consum i producció a través de la pròpia

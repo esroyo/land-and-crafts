@@ -1,18 +1,18 @@
 ---
 import '@xz/fonts/serve/source-code-pro.css';
-import { description, title } from '../common.ts';
+import 'leaflet/dist/leaflet.css';
+import { description, title, TILES_URL } from '../common.ts';
 ---
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-        <link rel="preconnect" href="https://b.tile.openstreetmap.fr" />
+        <link rel="preconnect" href={ TILES_URL } />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={ Astro.generator } />
         <meta name="description" content={ description } />
         <title>{ title }</title>
-        <link rel="stylesheet" href="/leaflet.css" />
 	</head>
 	<body>
 		<slot />

@@ -27,9 +27,10 @@ const coordinates = projects.map(p => p.data.coordinates).reduce((acc, cur) => [
 
 <script>
     import { Map, TileLayer } from 'leaflet';
+    import { TILES_URL } from '../common.ts';
     const el = document.querySelector('#map');
     const map = new Map(el).setView(el.dataset.coordinates.split(','), 6);
-    const tile = new TileLayer('https://b.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+    const tile = new TileLayer(`${TILES_URL}/{z}/{x}/{y}.png`, {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);

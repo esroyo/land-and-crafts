@@ -2,12 +2,11 @@
 import { title } from '../common.ts';
 ---
 <main>
-    <header class="header">
-        <slot name="header">
-            <h1>&nbsp; <em>{ title }</em> &nbsp;&utdot;&nbsp; map</h1>
-        </slot>
-    </header>
     <section class="sidebar">
+        <details class="header">
+            <summary>{ title }</summary>
+            <p>Land & Crafts Map és una xarxa d'artefactes site-específics que explora la relació entre l'ésser humà i la natura des d'una perspectiva biocèntrica i multiespècie. El projecte combina l'experimentació amb materials naturals i processos artesans locals amb experiències estètiques contemplatives per fomentar la consciència ecosistèmica i l'empatia cap a altres formes de vida, qüestionant els enfocaments convencionals del disseny per crear productes i experiències, integrades en entorns naturals, des d’una estètica ecològica.</p>
+        </details>
         <slot name="sidebar" />
     </section>
     <section class="map">
@@ -23,26 +22,23 @@ main {
   height: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 4rem 1fr;
+  grid-template-rows: 1fr;
   grid-template-areas:
-    "header header header header header"
     "sidebar map map map map";
 
   & > section {
-      max-height: calc(100dvh - 4rem);
+      max-height: 100dvh;
       overflow: auto;
   }
 }
 
 .header {
-  grid-area: header;
-  background: black;
-}
-
-h1 {
-  margin: auto 0;
-  line-height: 4rem;
-  color: white;
+    color: white;
+    margin: 1rem;
+    & summary {
+        font-size: 1.2rem;
+        font-weight: bolder;
+    }
 }
 
 .sidebar {
@@ -56,7 +52,7 @@ h1 {
 }
 
 .details {
-  grid-area: 2 / 4 / 3 / 6;
+  grid-area: 1 / 4 / 2 / 6;
   background: white;
   z-index: 1000; /* same as leaflet max */
   transition: transform 0.3s ease;
