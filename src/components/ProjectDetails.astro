@@ -6,6 +6,7 @@ const { Content } = await render(project);
 <project-details
     data-project-id={ project.id }
     data-project-coordinates={ project.data.coordinates }
+    data-project-selected="0"
 >
     <Content />
     <button class="close-button" aria-label="Close panel">&times;</button>
@@ -30,6 +31,10 @@ project-details {
   display: block;
   position: relative;
   padding: 2rem;
+
+  &[data-project-selected="0"] {
+      display: none;
+  }
 }
 
 .close-button {

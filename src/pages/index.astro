@@ -5,6 +5,7 @@ import Main from '../components/Main.astro';
 import Layout from '../layouts/Layout.astro';
 import LeafletMarker from '../components/LeafletMarker.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import ProjectDetails from '../components/ProjectDetails.astro';
 
 const projects = await getCollection('projects');
 const coordinates = projects.map(p => p.data.coordinates).reduce((acc, cur) => [acc[0] + cur[0], acc[1] + cur[1]], [0, 0]).map((sum: number) => sum / projects.length);
@@ -17,6 +18,9 @@ const coordinates = projects.map(p => p.data.coordinates).reduce((acc, cur) => [
         </div>
         <div id="map" slot="map" data-coordinates={ coordinates }>
             { projects.map((project) => <LeafletMarker { project } />) }
+        </div>
+        <div slot="details">
+            { projects.map((project) => <ProjectDetails { project } />) }
         </div>
     </Main>
 </Layout>

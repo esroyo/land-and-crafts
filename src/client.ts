@@ -1,5 +1,5 @@
 import { LatLng, Map } from 'leaflet';
-const { details } = window;
+const { details: detailsSection } = window;
 
 let map: Map;
 Map.addInitHook(function (this: Map) {
@@ -15,37 +15,42 @@ eventBus.addEventListener(
         const projectCoordinates = ev.detail.projectCoordinates.split(',').map(
             Number,
         );
-        const projectSelector = `[data-project-id="${projectId}"]`;
-        const isHidden = () => details.classList.contains('hide');
+        const isHidden = () => detailsSection.classList.contains('hide');
         const hasSameDetails = () =>
-            !!details.querySelector(projectSelector);
-        const updateDetails = () => {
-            const tmpl = document.querySelector<HTMLTemplateElement>(
-                `${projectSelector} template`,
+            !!detailsSection.querySelector(
+                `project-details[data-project-id="${projectId}"][data-project-selected="1"]`,
             );
-            if (tmpl) {
-                details.replaceChildren(tmpl.content.cloneNode(true));
-                map?.flyTo(
-                    new LatLng(
-                        projectCoordinates[0],
-                        projectCoordinates[1] + 1,
-                    ),
-                    8,
-                );
+        const updateDetails = () => {
+            for (
+                const projectDetails of detailsSection.querySelectorAll<
+                    HTMLElement
+                >('project-details')
+            ) {
+                const selected = projectDetails.dataset.projectId === projectId
+                    ? '1'
+                    : '0';
+                projectDetails.dataset.projectSelected = selected;
             }
+            map?.flyTo(
+                new LatLng(
+                    projectCoordinates[0],
+                    projectCoordinates[1] + 1,
+                ),
+                8,
+            );
         };
         const showDetails = () => {
             if (!hasSameDetails()) {
                 updateDetails();
             }
-            details.classList.remove('hide');
+            detailsSection.classList.remove('hide');
         };
         const hideAndMaybeUpdate = () => {
-            details.classList.add('hide');
+            detailsSection.classList.add('hide');
             if (hasSameDetails()) {
                 return;
             }
-            details.addEventListener('transitionend', showDetails, {
+            detailsSection.addEventListener('transitionend', showDetails, {
                 once: true,
             });
         };

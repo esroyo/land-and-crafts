@@ -28,6 +28,11 @@ main {
   grid-template-areas:
     "header header header header header"
     "sidebar map map map map";
+
+  & > section {
+      max-height: calc(100dvh - 4rem);
+      overflow: auto;
+  }
 }
 
 .header {
@@ -39,11 +44,6 @@ h1 {
   margin: auto 0;
   line-height: 4rem;
   color: white;
-}
-
-main > section {
-  max-height: calc(100dvh - 4rem);
-  overflow: auto;
 }
 
 .sidebar {
@@ -61,9 +61,10 @@ main > section {
   background: white;
   z-index: 1000; /* same as leaflet max */
   transition: transform 0.3s ease;
+
+  &.hide {
+      transform: translateX(50dvw);
+  }
 }
 
-.details.hide {
-  transform: translateX(50dvw);
-}
 </style>

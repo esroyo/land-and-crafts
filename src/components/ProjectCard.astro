@@ -1,6 +1,5 @@
 ---
 import { getImage } from 'astro:assets';
-import ProjectDetails from '../components/ProjectDetails.astro';
 
 const { project } = Astro.props;
 const optimizedBackground = await getImage({ src: project.data.cover });
@@ -16,11 +15,7 @@ const backgroundImage = `
     data-project-id={ project.id }
     data-project-coordinates={ project.data.coordinates }
 >
-    <div>
-        {/* <h3>{ project.data.title }</h3> */}
-        <div set:html={ project.data.description } >{/* <a href=`/projects/${project.id}`>+</a> */}</div>
-    </div>
-    <template><ProjectDetails { project } /></template>
+    <div set:html={ project.data.description }></div>
 </project-card>
 
 <script>
