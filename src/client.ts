@@ -36,8 +36,14 @@ eventBus.addEventListener(
             if (!hasSameDetails()) {
                 updateDetails();
             }
+            const extraLng = window.matchMedia(`(max-width: 768px)`).matches
+                ? 0
+                : 1;
             map?.flyTo(
-                new LatLng(projectCoordinates[0], projectCoordinates[1] + 1),
+                new LatLng(
+                    projectCoordinates[0],
+                    projectCoordinates[1] + extraLng,
+                ),
                 8,
             );
             detailsSection.classList.remove('hide');

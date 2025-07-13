@@ -113,14 +113,17 @@ main {
             "sidebar";
     }
 
-.details {
-  grid-area: 3 / 1 / 4 / 2;
+    .details {
+        grid-area: 3 / 1 / 4 / 2;
+        transition: transform 0.3s ease;
+        &.hide {
+            transform: translateY(150dvw);
+        }
+    }
 
-  transition: transform 0.3s ease;
-
-  &.hide {
-      transform: translateY(150dvw);
-  }
-}
-}
+    .header {
+      & p {
+          display: none;
+      }
+    }
 </style>
