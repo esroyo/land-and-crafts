@@ -1,5 +1,5 @@
 import { LatLng, Map } from 'leaflet';
-const { details: detailsSection } = window;
+const { detailsSection, mapSection } = window;
 
 let map: Map;
 Map.addInitHook(function (this: Map) {
@@ -9,7 +9,7 @@ Map.addInitHook(function (this: Map) {
 export const eventBus = new EventTarget();
 
 eventBus.addEventListener(
-    'project:show-details',
+    'project:details',
     (ev: CustomEvent<Record<'projectCoordinates' | 'projectId', string>>) => {
         const projectId = ev.detail.projectId;
         const projectCoordinates = ev.detail.projectCoordinates.split(',').map(
@@ -31,23 +31,19 @@ eventBus.addEventListener(
                     : '0';
                 projectDetails.dataset.projectSelected = selected;
             }
-            map?.flyTo(
-                new LatLng(
-                    projectCoordinates[0],
-                    projectCoordinates[1] + 1,
-                ),
-                8,
-            );
         };
         const showDetails = () => {
             if (!hasSameDetails()) {
                 updateDetails();
             }
+            map?.flyTo(new LatLng(projectCoordinates[0], projectCoordinates[1] + 1), 8);
             detailsSection.classList.remove('hide');
         };
         const hideAndMaybeUpdate = () => {
             detailsSection.classList.add('hide');
             if (hasSameDetails()) {
+                const initialCoordinates = mapSection.dataset.initialCoordinates.split(',').map(Number);
+                map?.flyTo(new LatLng(initialCoordinates[0], initialCoordinates[1]), mapSection.dataset.initialZoom);
                 return;
             }
             detailsSection.addEventListener('transitionend', showDetails, {

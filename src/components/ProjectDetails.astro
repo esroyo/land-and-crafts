@@ -18,7 +18,7 @@ const { Content } = await render(project);
     connectedCallback() {
           this.addEventListener('click', (ev) => {
             if (ev.target?.matches('.close-button')) {
-                eventBus.dispatchEvent(new CustomEvent<DOMStringMap>(`project:show-details`, { detail: this.dataset }));
+                eventBus.dispatchEvent(new CustomEvent<DOMStringMap>(`project:details`, { detail: this.dataset }));
             }
         });
     }

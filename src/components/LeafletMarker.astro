@@ -15,7 +15,7 @@ const { project } = Astro.props;
         const marker = new Marker(projectCoordinates).addTo(this);
           marker.bindTooltip(projectTitle);
           marker.on('click', () => {
-            eventBus.dispatchEvent(new CustomEvent<DOMStringMap>(`project:show-details`, { detail: self.dataset }));
+            eventBus.dispatchEvent(new CustomEvent<DOMStringMap>(`project:details`, { detail: self.dataset }));
           });
       });
     }

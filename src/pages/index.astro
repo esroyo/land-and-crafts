@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 import { title } from '../common.ts';
 
-import Main from '../components/Main.astro';
 import Layout from '../layouts/Layout.astro';
 import LeafletMarker from '../components/LeafletMarker.astro';
 import ProjectCard from '../components/ProjectCard.astro';
@@ -10,31 +9,33 @@ import ProjectDetails from '../components/ProjectDetails.astro';
 
 const projects = await getCollection('projects');
 const coordinates = projects.map(p => p.data.coordinates).reduce((acc, cur) => [acc[0] + cur[0], acc[1] + cur[1]], [0, 0]).map((sum: number) => sum / projects.length);
+const backgroundColor = '#182121';
+const headerHeight = '10rem';
 ---
 
 <Layout>
-	<Main>
-        <div slot="sidebar">
-            <div class="header">
-                <header>{ title }</header>
-                <p>Mapa d'artefactes <em>site-específics</em> que exploren la relació entre l'ésser humà i la natura, dissenyats des d'una perspectiva biocèntrica i multiespècie.</p>
-            </div>
+    <main style={ `--backgroundColor: ${backgroundColor}; --headerHeight: ${headerHeight}` }>
+        <header class="header" id="headerSection">
+            <h1>{ title }</h1>
+            <p>Mapa d'artefactes <em>site-específics</em> que exploren la relació entre l'ésser humà i la natura, dissenyats des d'una perspectiva biocèntrica i multiespècie.</p>
+        </header>
+        <section class="sidebar" id="sidebarSection">
             { projects.map((project) => <ProjectCard { project } />) }
-        </div>
-        <div id="map" slot="map" data-coordinates={ coordinates }>
+        </section>
+        <section class="map" id="mapSection" data-initial-coordinates={ coordinates } data-initial-zoom="6">
             { projects.map((project) => <LeafletMarker { project } />) }
-        </div>
-        <div slot="details">
+        </section>
+        <section class="details hide" id="detailsSection">
             { projects.map((project) => <ProjectDetails { project } />) }
-        </div>
-    </Main>
+        </section>
+    </main>
 </Layout>
 
 <script>
     import { Map, TileLayer } from 'leaflet';
     import { TILES_URL } from '../common.ts';
-    const el = document.querySelector('#map');
-    const map = new Map(el).setView(el.dataset.coordinates.split(','), 6);
+
+    const map = new Map(mapSection).setView(mapSection.dataset.initialCoordinates.split(','), mapSection.dataset.initialZoom);
     const tile = new TileLayer(`${TILES_URL}/{z}/{x}/{y}.png`, {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -42,27 +43,61 @@ const coordinates = projects.map(p => p.data.coordinates).reduce((acc, cur) => [
 </script>
 
 <style>
-#map {
-    height: 100%;
-    width: 100%;
-}
+main {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: var(--headerHeight) 1fr;
+  grid-template-areas:
+    "header map map map map"
+    "sidebar map map map map";
 
-#details {
-    height: 100%;
-    width: 100%;
+  & > section {
+      max-height: 100dvh;
+      overflow: auto;
+  }
 }
 
 .header {
-    color: white;
-    padding: 1rem;
-    & header {
-        font-size: 1.2rem;
-        font-weight: bolder;
-    }
-    & p {
-        margin-top: .4rem;
-        margin-bottom: 1.4rem;
-        font-size: .9rem;
-    }
+  grid-area: header;
+  background: var(--backgroundColor);
+  color: white;
+  padding: 1rem;
+
+  & h1 {
+      font-size: 1.2rem;
+      font-weight: bolder;
+      margin-top: .2rem;
+  }
+  & p {
+      font-size: .9rem;
+  }
+}
+
+.sidebar {
+  grid-area: sidebar;
+  background: var(--backgroundColor);
+  max-height: calc(100dvh - var(--headerHeight));
+}
+
+.map {
+  grid-area: map;
+  background: #90CCCB;
+  height: 100%;
+  width: 100%;
+}
+
+.details {
+  grid-area: 1 / 4 / 3 / 6;
+  background: white;
+  z-index: 1000; /* same as leaflet max */
+  height: 100%;
+  width: 100%;
+
+  transition: transform 0.3s ease;
+
+  &.hide {
+      transform: translateX(50dvw);
+  }
 }
 </style>

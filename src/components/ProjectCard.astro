@@ -20,7 +20,7 @@ const backgroundImage = `url(${optimizedBackground.srcSet.values[0]?.url || opti
   class ProjectCard extends HTMLElement {
       connectedCallback() {
           this.addEventListener('click', () => {
-            eventBus.dispatchEvent(new CustomEvent<DOMStringMap>(`project:show-details`, { detail: this.dataset }));
+            eventBus.dispatchEvent(new CustomEvent<DOMStringMap>(`project:details`, { detail: this.dataset }));
         });
     }
   }
