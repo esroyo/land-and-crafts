@@ -11,10 +11,11 @@ const projects = await getCollection('projects');
 const coordinates = projects.map(p => p.data.coordinates).reduce((acc, cur) => [acc[0] + cur[0], acc[1] + cur[1]], [0, 0]).map((sum: number) => sum / projects.length);
 const backgroundColor = '#182121';
 const headerHeight = '10rem';
+const headerHeightSmall = '4rem';
 ---
 
 <Layout>
-    <main style={ `--backgroundColor: ${backgroundColor}; --headerHeight: ${headerHeight}` }>
+    <main style={ `--backgroundColor: ${backgroundColor}; --headerHeight: ${headerHeight}; --headerHeightSmall: ${headerHeightSmall}` }>
         <header class="header" id="headerSection">
             <h1>{ title }</h1>
             <p>Mapa d'artefactes <em>site-específics</em> que exploren la relació entre l'ésser humà i la natura, dissenyats des d'una perspectiva biocèntrica i multiespècie.</p>
@@ -63,6 +64,7 @@ main {
   background: var(--backgroundColor);
   color: white;
   padding: 1rem;
+  overflow: auto;
 
   & h1 {
       font-size: 1.2rem;
@@ -97,7 +99,28 @@ main {
   transition: transform 0.3s ease;
 
   &.hide {
-      transform: translateX(50dvw);
+      transform: translateX(100dvw);
   }
+}
+
+@media (max-width: 768px) {
+    main {
+        grid-template-columns: 1fr;
+        grid-template-rows: var(--headerHeightSmall) 1fr 60dvh;
+        grid-template-areas:
+            "header"
+            "map"
+            "sidebar";
+    }
+
+.details {
+  grid-area: 3 / 1 / 4 / 2;
+
+  transition: transform 0.3s ease;
+
+  &.hide {
+      transform: translateY(150dvw);
+  }
+}
 }
 </style>

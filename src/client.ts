@@ -36,14 +36,21 @@ eventBus.addEventListener(
             if (!hasSameDetails()) {
                 updateDetails();
             }
-            map?.flyTo(new LatLng(projectCoordinates[0], projectCoordinates[1] + 1), 8);
+            map?.flyTo(
+                new LatLng(projectCoordinates[0], projectCoordinates[1] + 1),
+                8,
+            );
             detailsSection.classList.remove('hide');
         };
         const hideAndMaybeUpdate = () => {
             detailsSection.classList.add('hide');
             if (hasSameDetails()) {
-                const initialCoordinates = mapSection.dataset.initialCoordinates.split(',').map(Number);
-                map?.flyTo(new LatLng(initialCoordinates[0], initialCoordinates[1]), mapSection.dataset.initialZoom);
+                const initialCoordinates = mapSection.dataset.initialCoordinates
+                    .split(',').map(Number);
+                map?.flyTo(
+                    new LatLng(initialCoordinates[0], initialCoordinates[1]),
+                    mapSection.dataset.initialZoom,
+                );
                 return;
             }
             detailsSection.addEventListener('transitionend', showDetails, {
