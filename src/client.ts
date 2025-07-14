@@ -8,6 +8,17 @@ Map.addInitHook(function (this: Map) {
 
 export const eventBus = new EventTarget();
 
+window.addEventListener('DOMContentLoaded', () => {
+    const [entityKind, entityId] = window.location.hash.slice(1).split(':');
+    if (entityKind === 'project' && entityId) {
+        const projectCard = document.querySelector<HTMLElement>(
+            `project-card[data-project-id="${entityId}"]`,
+        );
+        console.log(entityId, entityKind, projectCard);
+        projectCard?.click();
+    }
+});
+
 eventBus.addEventListener(
     'project:details',
     (ev: CustomEvent<Record<'projectCoordinates' | 'projectId', string>>) => {
@@ -46,6 +57,7 @@ eventBus.addEventListener(
                 ),
                 8,
             );
+            history.replaceState(null, '', `#project:${projectId}`);
             detailsSection.classList.remove('hide');
         };
         const hideAndMaybeUpdate = () => {
@@ -57,6 +69,7 @@ eventBus.addEventListener(
                     new LatLng(initialCoordinates[0], initialCoordinates[1]),
                     mapSection.dataset.initialZoom,
                 );
+                history.replaceState(null, '', '/');
                 return;
             }
             detailsSection.addEventListener('transitionend', showDetails, {

@@ -10,6 +10,8 @@ const { Content } = await render(project);
 >
     <Content />
     <button class="close-button" aria-label="Close panel">&times;</button>
+    <br />
+    <a href={ `/#project:${project.id}` } class="copy-link" title="Copy link">🔗 Copy link</a>
 </project-details>
 
 <script>
@@ -17,8 +19,11 @@ const { Content } = await render(project);
   class ProjectDetails extends HTMLElement {
     connectedCallback() {
           this.addEventListener('click', (ev) => {
+            ev.preventDefault();
             if (ev.target?.matches('.close-button')) {
                 eventBus.dispatchEvent(new CustomEvent<DOMStringMap>(`project:details`, { detail: this.dataset }));
+            } else if (ev.target?.matches('.copy-link')) {
+                navigator.clipboard.writeText(ev.target.href);
             }
         });
     }
@@ -35,6 +40,10 @@ project-details {
   &[data-project-selected="0"] {
       display: none;
   }
+}
+
+.copy-link {
+    text-decoration: none;
 }
 
 .close-button {
