@@ -10,7 +10,7 @@ import ProjectDetails from '../components/ProjectDetails.astro';
 const projects = await getCollection('projects');
 const coordinates = projects.map(p => p.data.coordinates).reduce((acc, cur) => [acc[0] + cur[0], acc[1] + cur[1]], [0, 0]).map((sum: number) => sum / projects.length);
 const backgroundColor = '#182121';
-const headerHeight = '10rem';
+const headerHeight = '15rem';
 const headerHeightSmall = '4rem';
 ---
 
@@ -18,7 +18,7 @@ const headerHeightSmall = '4rem';
     <main style={ `--backgroundColor: ${backgroundColor}; --headerHeight: ${headerHeight}; --headerHeightSmall: ${headerHeightSmall}` }>
         <header class="header" id="headerSection">
             <h1>{ title }</h1>
-            <p>Mapa d'artefactes <em>site-específics</em> que exploren la relació entre l'ésser humà i la natura, dissenyats des d'una perspectiva biocèntrica i multiespècie.</p>
+            <p>Mapa d’artefactes <em>site-specific</em> que exploren la relació entre ésser humà i natura mitjançant un disseny biocèntric i multiespècie. Cada projecte genera una experiència estètica integrada en l’entorn, a través de l’ús de materials locals i de tècniques artesanes tradicionals o contemporànies.</p>
         </header>
         <section class="sidebar" id="sidebarSection">
             { projects.map((project) => <ProjectCard { project } />) }

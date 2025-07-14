@@ -1,4 +1,4 @@
 export const title = 'Land & Crafts';
 export const description =
-    "Xarxa d'artefactes site-específics que exploren la relació entre humans i natura mitjançant materials naturals, processos artesans i una estètica ecològica per promoure l'empatia multiespècie i la consciència ecosistèmica.";
+    'Map of Site-specific art installations exploring human-nature relationships through biocentric, multispecies design. Each project creates aesthetic experiences integrated with local environments using traditional and contemporary crafts.';
 export const TILES_URL = 'https://b.tile.openstreetmap.fr/hot';
