@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import { title } from '../common.ts';
 
+import Logo from '../assets/land-and-crafts.svg';
 import Layout from '../layouts/Layout.astro';
 import LeafletMarker from '../components/LeafletMarker.astro';
 import ProjectCard from '../components/ProjectCard.astro';
@@ -10,20 +11,20 @@ import ProjectDetails from '../components/ProjectDetails.astro';
 const projects = await getCollection('projects');
 const coordinates = projects.map(p => p.data.coordinates).reduce((acc, cur) => [acc[0] + cur[0], acc[1] + cur[1]], [0, 0]).map((sum: number) => sum / projects.length);
 const backgroundColor = '#182121';
-const headerHeight = '15rem';
+const headerHeight = '16rem';
 const headerHeightSmall = '4rem';
 ---
 
 <Layout>
     <main style={ `--backgroundColor: ${backgroundColor}; --headerHeight: ${headerHeight}; --headerHeightSmall: ${headerHeightSmall}` }>
         <header class="header" id="headerSection">
-            <h1>{ title }</h1>
+            <Logo aria-labeld={ title } role="img" class="logo" />
             <p>Mapa d’artefactes <em>site-specific</em> que exploren la relació entre ésser humà i natura mitjançant un disseny biocèntric i multiespècie. Cada projecte genera una experiència estètica integrada en l’entorn, a través de l’ús de materials locals i de tècniques artesanes tradicionals o contemporànies.</p>
         </header>
         <section class="sidebar" id="sidebarSection">
             { projects.map((project) => <ProjectCard { project } />) }
         </section>
-        <section class="map" id="mapSection" data-initial-coordinates={ coordinates } data-initial-zoom="6">
+        <section class="map" id="mapSection" data-initial-coordinates={ coordinates }>
             { projects.map((project) => <LeafletMarker { project } />) }
         </section>
         <section class="details hide" id="detailsSection">
@@ -34,9 +35,9 @@ const headerHeightSmall = '4rem';
 
 <script>
     import { Map, TileLayer } from 'leaflet';
-    import { TILES_URL } from '../common.ts';
+    import { TILES_URL, getZoom } from '../common.ts';
 
-    const map = new Map(mapSection).setView(mapSection.dataset.initialCoordinates.split(','), mapSection.dataset.initialZoom);
+    const map = new Map(mapSection).setView(mapSection.dataset.initialCoordinates.split(','), getZoom());
     const tile = new TileLayer(`${TILES_URL}/{z}/{x}/{y}.png`, {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -47,7 +48,7 @@ const headerHeightSmall = '4rem';
 main {
   height: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: minmax(300px, 1fr) 1fr 1fr 1fr 1fr;
   grid-template-rows: var(--headerHeight) 1fr;
   grid-template-areas:
     "header map map map map"
@@ -65,14 +66,17 @@ main {
   color: white;
   padding: 1rem;
   overflow: auto;
+  scrollbar-color: #EEE var(--backgroundColor);
 
-  & h1 {
-      font-size: 1.2rem;
-      font-weight: bolder;
-      margin-top: .2rem;
+  .logo {
+      fill: white;
+      width: 100%;
+      max-height: 3rem;
   }
+
   & p {
       font-size: .9rem;
+      margin-top: 0;
   }
 }
 
@@ -80,6 +84,7 @@ main {
   grid-area: sidebar;
   background: var(--backgroundColor);
   max-height: calc(100dvh - var(--headerHeight));
+  scrollbar-color: #EEE var(--backgroundColor);
 }
 
 .map {
@@ -117,7 +122,7 @@ main {
         grid-area: 3 / 1 / 4 / 2;
         transition: transform 0.3s ease;
         &.hide {
-            transform: translateY(150dvw);
+            transform: translateY(100dvh);
         }
     }
 

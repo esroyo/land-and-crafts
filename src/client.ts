@@ -1,4 +1,5 @@
 import { LatLng, Map } from 'leaflet';
+import { getZoom } from './common.ts';
 const { detailsSection, mapSection } = window;
 
 let map: Map;
@@ -67,7 +68,7 @@ eventBus.addEventListener(
                     .split(',').map(Number);
                 map?.flyTo(
                     new LatLng(initialCoordinates[0], initialCoordinates[1]),
-                    mapSection.dataset.initialZoom,
+                    getZoom(),
                 );
                 history.replaceState(null, '', '/');
                 return;
