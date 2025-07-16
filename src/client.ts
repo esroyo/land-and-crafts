@@ -56,7 +56,7 @@ eventBus.addEventListener(
                     projectCoordinates[0],
                     projectCoordinates[1] + extraLng,
                 ),
-                8,
+                9,
             );
             history.replaceState(null, '', `#project:${projectId}`);
             detailsSection.classList.remove('hide');

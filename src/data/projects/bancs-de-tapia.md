@@ -32,5 +32,9 @@ a cops amb un pisó.
 
 Cortijo _Los Aguilares_ de Ronda en Málaga.
 
+<carousel-gallery>
+
 ![](../../assets/projects/bancs-de-tapia-001.jpg)
 ![](../../assets/projects/bancs-de-tapia-002.jpg)
+
+</carousel-gallery>

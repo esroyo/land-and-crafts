@@ -35,6 +35,10 @@ Domestic Wild i [Tramats.cat](https://tramats.cat/que-fem/la-pletera-2022/)
 Parc natural del Montgrí, les Illes Medes i el Baix Ter. Itinerari Accesible La
 Pletera, Catalunya.
 
+<carousel-gallery>
+
 ![](../../assets/projects/artefactes-lapletera-001.avif)
 ![](../../assets/projects/artefactes-lapletera-002.avif)
 ![](../../assets/projects/artefactes-lapletera-003.avif)
+
+</carousel-gallery>

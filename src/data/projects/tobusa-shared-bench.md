@@ -33,7 +33,11 @@ galvanitzat per als seients.
 
 Arte Sella, Villa Strobele, Borgo Valsugana (TN)
 
+<carousel-gallery>
+
 ![](../../assets/projects/tobusa-bench-001.jpg)
 ![](../../assets/projects/tobusa-bench-002.jpg)
 ![](../../assets/projects/tobusa-bench-003.jpg)
 ![](../../assets/projects/tobusa-bench-004.jpg)
+
+</carousel-gallery>

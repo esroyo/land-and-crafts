@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import { title } from '../common.ts';
 
+import CarouselGallery from '../components/CarouselGallery.astro';
 import Logo from '../assets/land-and-crafts.svg';
 import Layout from '../layouts/Layout.astro';
 import LeafletMarker from '../components/LeafletMarker.astro';
@@ -31,6 +32,7 @@ const headerHeightSmall = '4rem';
             { projects.map((project) => <ProjectDetails { project } />) }
         </section>
     </main>
+    <CarouselGallery />
 </Layout>
 
 <script>

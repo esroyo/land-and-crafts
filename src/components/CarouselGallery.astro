@@ -1,0 +1,307 @@
+<carousel-gallery>
+    <slot />
+</carousel-gallery>
+
+<script>
+    class CarouselGallery extends HTMLElement {
+        currentSlide = 0;
+        slides: Array<HTMLImageElement> = [];
+        autoplayInterval = null;
+        isAutoplayEnabled = false;
+
+        connectedCallback() {
+            this.init();
+        }
+
+        init() {
+            // Get all images from the paragraph
+            const paragraph = this.querySelector('p');
+            if (!paragraph) return;
+
+            const images = paragraph.querySelectorAll('img');
+            if (images.length === 0) return;
+
+            this.slides = Array.from(images);
+            this.createCarouselStructure();
+            this.setupEventListeners();
+            this.updateSlide();
+        }
+
+        createCarouselStructure() {
+            // Create carousel HTML structure
+            const carouselHTML = `
+                <div class="carousel-container">
+                    <div class="carousel-track">
+                        ${this.slides.map((img, index) => `
+                            <div class="carousel-slide">
+                                ${img.outerHTML}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button class="carousel-nav prev" aria-label="Previous image">‹</button>
+                    <button class="carousel-nav next" aria-label="Next image">›</button>
+                    <div class="carousel-indicators">
+                        ${this.slides.map((_, index) => `
+                            <button class="carousel-indicator" data-slide="${index}" aria-label="Go to slide ${index + 1}"></button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            // Insert carousel structure before the paragraph
+            this.insertAdjacentHTML('afterbegin', carouselHTML);
+        }
+
+        setupEventListeners() {
+            // Navigation buttons
+            const prevButton = this.querySelector('.carousel-nav.prev');
+            const nextButton = this.querySelector('.carousel-nav.next');
+
+            prevButton.addEventListener('click', () => this.goToPrevSlide());
+            nextButton.addEventListener('click', () => this.goToNextSlide());
+
+            // Indicators
+            const indicators = this.querySelectorAll('.carousel-indicator');
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => this.goToSlide(index));
+            });
+
+            // Keyboard navigation
+            this.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    this.goToPrevSlide();
+                } else if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    this.goToNextSlide();
+                }
+            });
+
+            // Make component focusable for keyboard navigation
+            this.setAttribute('tabindex', '0');
+
+            // Touch/swipe support
+            this.setupTouchEvents();
+        }
+
+        setupTouchEvents() {
+            const track = this.querySelector('.carousel-track');
+            let startX = 0;
+            let startY = 0;
+            let isTracking = false;
+
+            track.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                isTracking = true;
+            }, { passive: true });
+
+            track.addEventListener('touchmove', (e) => {
+                if (!isTracking) return;
+
+                const currentX = e.touches[0].clientX;
+                const currentY = e.touches[0].clientY;
+                const diffX = startX - currentX;
+                const diffY = startY - currentY;
+
+                // If horizontal swipe is more significant than vertical
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            track.addEventListener('touchend', (e) => {
+                if (!isTracking) return;
+
+                const endX = e.changedTouches[0].clientX;
+                const diffX = startX - endX;
+                const threshold = 50;
+
+                if (Math.abs(diffX) > threshold) {
+                    if (diffX > 0) {
+                        this.goToNextSlide();
+                    } else {
+                        this.goToPrevSlide();
+                    }
+                }
+
+                isTracking = false;
+            }, { passive: true });
+        }
+
+        goToPrevSlide() {
+            this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+            this.updateSlide();
+        }
+
+        goToNextSlide() {
+            this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+            this.updateSlide();
+        }
+
+        goToSlide(index) {
+            this.currentSlide = index;
+            this.updateSlide();
+        }
+
+        updateSlide() {
+            const track = this.querySelector('.carousel-track');
+            const indicators = this.querySelectorAll('.carousel-indicator');
+
+            if (track) {
+                track.style.transform = `translateX(-${this.currentSlide * 100}%)`;
+            }
+
+            // Update indicators
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === this.currentSlide);
+            });
+
+            // Update aria-live region for screen readers
+            this.setAttribute('aria-live', 'polite');
+            this.setAttribute('aria-label', `Image ${this.currentSlide + 1} of ${this.slides.length}`);
+        }
+    }
+
+    // Register the custom element
+    customElements.define('carousel-gallery', CarouselGallery);
+</script>
+
+<style is:global>
+    carousel-gallery {
+        position: relative;
+        display: block;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    carousel-gallery .carousel-container {
+        position: relative;
+        width: 100%;
+        height: 33rem;
+        max-height: 27dvw;
+        overflow: hidden;
+        background: repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 6px, rgba(0, 0, 0, 0.06) 6px, rgba(0, 0, 0, 0.06) 8px);
+    }
+
+    carousel-gallery .carousel-track {
+        display: flex;
+        transition: transform 0.3s ease-in-out;
+        height: 100%;
+    }
+
+    carousel-gallery .carousel-slide {
+        min-width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    carousel-gallery .carousel-slide img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    carousel-gallery .carousel-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0,0,0,0.7);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s;
+        z-index: 10;
+    }
+
+    carousel-gallery .carousel-nav:hover {
+        background: rgba(0,0,0,0.9);
+    }
+
+    carousel-gallery .carousel-nav:focus {
+        outline: 2px solid #ff6b35;
+        outline-offset: 2px;
+    }
+
+    carousel-gallery .carousel-nav.prev {
+        left: 15px;
+    }
+
+    carousel-gallery .carousel-nav.next {
+        right: 15px;
+    }
+
+    carousel-gallery .carousel-indicators {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+        z-index: 10;
+    }
+
+    carousel-gallery .carousel-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(0,0,0,0.4);
+        border: 2px solid rgba(0,0,0,0.2);
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    carousel-gallery .carousel-indicator.active {
+        background: #ff6b35;
+        border-color: rgba(255,107,53,0.8);
+        transform: scale(1.2);
+    }
+
+    carousel-gallery .carousel-indicator:hover {
+        background: rgba(0,0,0,0.6);
+        border-color: rgba(0,0,0,0.4);
+    }
+
+    carousel-gallery .carousel-indicator.active:hover {
+        background: #e55a2e;
+    }
+
+    /* Hide original paragraph when enhanced */
+    carousel-gallery p {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        carousel-gallery .carousel-container {
+            position: relative;
+            width: 100%;
+            max-height: 25dvh;
+            overflow: hidden;
+        }
+
+        carousel-gallery .carousel-nav {
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+        }
+        
+        carousel-gallery .carousel-nav.prev {
+            left: 10px;
+        }
+        
+        carousel-gallery .carousel-nav.next {
+            right: 10px;
+        }
+    }
+</style>

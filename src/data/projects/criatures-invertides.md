@@ -33,7 +33,11 @@ Carmela Forés i Carles Escrig
 
 Barranc de la Palanca, Les Useres, Castelló.
 
+<carousel-gallery>
+
 ![](../../assets/projects/criatures-invertides-003.jpg)
 ![](../../assets/projects/criatures-invertides-002.jpg)
 ![](../../assets/projects/criatures-invertides-001.jpg)
 ![](../../assets/projects/criatures-invertides-004.jpg)
+
+</carousel-gallery>
