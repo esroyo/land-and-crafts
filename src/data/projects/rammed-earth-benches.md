@@ -2,7 +2,7 @@
 title: Rammed earth benches
 description: "<span><strong>Rammed earth benches, Cortijo los Aguilares winery</strong> &mdash; <em>made with local materials and designed to extend the experience of people visiting the wineries.</em></span>"
 coordinates: [36.78436, -5.097255]
-cover: ../../assets/projects/bancs-de-tapia-001.jpg
+cover: ../../assets/projects/rammed-earth-benches-001.jpg
 ---
 
 ## Rammed earth benches
@@ -24,7 +24,7 @@ different layers of moist clay soil, manually compacted with a rammer.
 
 ### Manufacturing
 
-[Terram](https://www.terram.cat/portfolio/bancs-de-tapia-celler-a-ronda-malaga/)
+[Terram](https://www.terram.cat/portfolio/rammed-earth-benches-celler-a-ronda-malaga/)
 
 ### Location
 
@@ -32,7 +32,7 @@ Cortijo _Los Aguilares_ in Ronda, Málaga.
 
 <carousel-gallery>
 
-![](../../assets/projects/bancs-de-tapia-001.jpg)
-![](../../assets/projects/bancs-de-tapia-002.jpg)
+![](../../assets/projects/rammed-earth-benches-001.jpg)
+![](../../assets/projects/rammed-earth-benches-002.jpg)
 
 </carousel-gallery>

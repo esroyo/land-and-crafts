@@ -2,7 +2,7 @@
 title: La Pletera Itinerary Artifacts
 description: "<span><strong>Public furniture, La Pletera Itinerary</strong> &mdash; <em>collection of artistic and functional, sustainable, and artisanal pieces made with solid wood and local plant fibers.</em></span>"
 coordinates: [42.024528, 3.192778]
-cover: ../../assets/projects/artefactes-lapletera-001.avif
+cover: ../../assets/projects/pletera-itinerary-artifacts-001.avif
 ---
 
 ## La Pletera Itinerary Artifacts
@@ -36,8 +36,8 @@ Itinerary, Catalunya.
 
 <carousel-gallery>
 
-![](../../assets/projects/artefactes-lapletera-001.avif)
-![](../../assets/projects/artefactes-lapletera-002.avif)
-![](../../assets/projects/artefactes-lapletera-003.avif)
+![](../../assets/projects/pletera-itinerary-artifacts-001.avif)
+![](../../assets/projects/pletera-itinerary-artifacts-002.avif)
+![](../../assets/projects/pletera-itinerary-artifacts-003.avif)
 
 </carousel-gallery>
