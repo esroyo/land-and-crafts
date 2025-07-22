@@ -1,36 +1,34 @@
 ---
-title: Bancs de tàpia
-description: "<span><strong>Bancs de tapia, bodega Cortijo los Aguilares</strong> &mdash; <em>fabricats amb materials locals i  dissenyats per prolongar l’experiència de les persones que visiten les bodegues.</em></span>"
+title: Rammed earth benches
+description: "<span><strong>Rammed earth benches, Cortijo los Aguilares winery</strong> &mdash; <em>made with local materials and designed to extend the experience of people visiting the wineries.</em></span>"
 coordinates: [36.78436, -5.097255]
 cover: ../../assets/projects/bancs-de-tapia-001.jpg
 ---
 
-## Bancs de Tapia
+## Rammed earth benches
 
-Bancs dissenyats per prolongar l'experiència de les persones que visiten les
-bodegues. Mitjançant el seu ús poden descansar en diferents parts de la finca i
-gaudir d'una plena immersió en el paisatge. L'estètica ecològica acompanya
-aquesta experiència donat que els bancs utilitzen recursos locals i fabricació
-de baixa energia.
+Benches designed to extend the experience of people visiting the wineries.
+Through their use, visitors can rest in different parts of the estate and enjoy
+a full immersion in the landscape. The ecological aesthetic accompanies this
+experience since the benches use local resources and low-energy manufacturing.
 
 ### Material
 
-Terra, aigua i calç. 5m³ de terra del lloc estabilitzada amb 5% ciment. Mètode
-de construcció de tàpia o terra piconada que consisteix a elaborar murs omplint
-un encofrat amb diferents capes de terra argilosa humida, compactada manualment
-a cops amb un pisó.
+Earth, water and lime. 5m³ of local earth stabilized with 5% cement. Rammed
+earth construction method consisting of building walls by filling formwork with
+different layers of moist clay soil, manually compacted with a rammer.
 
-### Disseny
+### Design
 
 [Pensando en blanco](https://pensandoenblanco.com/project/bancos-de-tapia-c-o-cla/)
 
-### Fabricació
+### Manufacturing
 
 [Terram](https://www.terram.cat/portfolio/bancs-de-tapia-celler-a-ronda-malaga/)
 
-### Ubicació
+### Location
 
-Cortijo _Los Aguilares_ de Ronda en Málaga.
+Cortijo _Los Aguilares_ in Ronda, Málaga.
 
 <carousel-gallery>
 

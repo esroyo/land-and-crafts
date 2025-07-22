@@ -20,7 +20,7 @@ const headerHeightSmall = '4rem';
     <main style={ `--backgroundColor: ${backgroundColor}; --headerHeight: ${headerHeight}; --headerHeightSmall: ${headerHeightSmall}` }>
         <header class="header" id="headerSection">
             <Logo aria-labeld={ title } role="img" class="logo" />
-            <p>Mapa d’artefactes <em>site-specific</em> que exploren la relació entre ésser humà i natura mitjançant un disseny biocèntric i multiespècie. Cada projecte genera una experiència estètica integrada en l’entorn, a través de l’ús de materials locals i de tècniques artesanes tradicionals o contemporànies.</p>
+            <p>Map of <em>site-specific</em> artifacts that explore the relationship between human beings and nature through biocentric and multispecies design. Each project generates an aesthetic experience integrated into the environment, through the use of local materials and traditional or contemporary artisan techniques.</p>
         </header>
         <section class="sidebar" id="sidebarSection">
             { projects.map((project) => <ProjectCard { project } />) }

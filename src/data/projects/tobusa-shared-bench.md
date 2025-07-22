@@ -1,35 +1,35 @@
 ---
 title: Tobusa shared bench
-description: "<span><strong>Tobusa bench, Arte Sella</strong> &mdash; <em>transforma restes de troncs d'arbres en seients i refugis per a la fauna, apilant-los amb forats mecanitzats per a insectes.</em></span>"
+description: "<span><strong>Tobusa bench, Arte Sella</strong> &mdash; <em>transforms tree trunk remains into seating and wildlife shelters, stacking them with machined holes for insects.</em></span>"
 coordinates: [46.00755007298914, 11.415301027103986]
 cover: ../../assets/projects/tobusa-bench-002.jpg
 ---
 
 ## Tobusa shared bench
 
-El banc Tobusa simbolitza un renaixement dels troncs d'arbres talats per la
-tempesta, que ara es converteixen en seients, llars per a petites plantacions i
-refugis per als habitants de l'ecosistema forestal local. La instal·lació està
-composta per troncs individuals apilats, que varien en mida, diàmetre (des de 80
-mm fins a 450 mm) i alçada, que varia segons el nivell de solapament entre els
-troncs individuals. Alguns dels troncs més grans també es van mecanitzar en CNC
-per crear un patró geomètric regular de forats adequats per allotjar insectes
-que poblen la vegetació forestal de la Val di Sella.
+The Tobusa bench symbolizes a rebirth of tree trunks felled by the storm, which
+now become seats, homes for small plantations and shelters for the inhabitants
+of the local forest ecosystem. The installation is composed of individual
+stacked logs, varying in size, diameter (from 80 mm to 450 mm) and height, which
+varies according to the level of overlap between individual logs. Some of the
+larger logs were also CNC machined to create a regular geometric pattern of
+holes suitable for housing insects that populate the forest vegetation of Val di
+Sella.
 
 ### Material
 
-Troncs d'arbres talats per la tempesta Vaia en Triveneto (2018) i acer
-galvanitzat per als seients.
+Tree trunks felled by storm Vaia in Triveneto (2018) and galvanized steel for
+seating.
 
-### Disseny
+### Design
 
 [Satoko Shinohara](https://www.s-d-s.net/)
 
-### Fabricació
+### Manufacturing
 
 [D3Wood](https://www.d3wood.it/), [Nordzinc](https://www.nordzinc.com/en/)
 
-### Ubicació
+### Location
 
 Arte Sella, Villa Strobele, Borgo Valsugana (TN)
 

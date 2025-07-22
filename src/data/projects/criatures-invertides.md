@@ -1,35 +1,34 @@
 ---
-title: Criatures Invertides
-description: "<span><strong>Criatures Invertides, Barranc de la Palanca</strong> &mdash; <em>elements dissenyats des d’una perspectiva biocèntrica i multiespècie. Fabricats a partir de residus de camp.</em></span>"
+title: Inverted creatures
+description: "<span><strong>Inverted creatures, barranc de la Palanca</strong> &mdash; <em>elements designed from a biocentric and multispecies perspective. Made from agricultural waste.</em></span>"
 coordinates: [40.178750, -0.163437]
 cover: ../../assets/projects/criatures-invertides-001.jpg
 ---
 
-## Criatures invertides
+## Inverted creatures
 
-Elements dissenyats des d’una perspectiva biocèntrica i multiespècie. El
-resultat final qüestiona els models de consum i producció a través de la pròpia
-materialitat: utilitza residus del camp, l’impacte ambiental en la fabricació és
-mínim i proposa una estètica de la sobrietat que contrasta amb l'excés de la
-cultura material dominant, oferint una alternativa basada en el respecte pels
-cicles naturals. El nom d’invertides s’allunya del seu sentit pejoratiu per
-esdevindre força transformadora des d’una pràctica situada en xarxes de
-coexistència i interdependència entre espècies, potenciant així l’empatia
-ecològica.
+Elements designed from a biocentric and multispecies perspective. The final
+result questions consumption and production models through its own materiality:
+it uses agricultural waste, the environmental impact in manufacturing is minimal
+and proposes an aesthetic of sobriety that contrasts with the excess of the
+dominant material culture, offering an alternative based on respect for natural
+cycles. The name "inverted" moves away from its pejorative sense to become a
+transformative force from a practice situated in networks of coexistence and
+interdependence between species, thus enhancing ecological empathy.
 
 ### Material
 
-Fusta massissa local d’olivera.
+Local solid olive wood.
 
-### Disseny
+### Design
 
 Carmela Forés
 
-### Fabricació
+### Manufacturing
 
-Carmela Forés i Carles Escrig
+Carmela Forés and Carles Escrig
 
-### Ubicació
+### Location
 
 Barranc de la Palanca, Les Useres, Castelló.
 
