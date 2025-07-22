@@ -12,7 +12,7 @@ import ProjectDetails from '../components/ProjectDetails.astro';
 const projects = await getCollection('projects');
 const coordinates = projects.map(p => p.data.coordinates).reduce((acc, cur) => [acc[0] + cur[0], acc[1] + cur[1]], [0, 0]).map((sum: number) => sum / projects.length);
 const backgroundColor = '#182121';
-const headerHeight = '16rem';
+const headerHeight = '17rem';
 const headerHeightSmall = '4rem';
 ---
 
