@@ -1,6 +1,6 @@
 ---
 title: Inverted creatures
-description: "<span><strong>Inverted creatures, barranc de la Palanca</strong> &mdash; <em>elements designed from a biocentric and multispecies perspective. Made from agricultural waste.</em></span>"
+description: "<span><strong>Inverted creatures, Barranc de la Palanca</strong> &mdash; <em>elements designed from a biocentric and multispecies perspective. Made from agricultural waste.</em></span>"
 coordinates: [40.178750, -0.163437]
 cover: ../../assets/projects/inverted-creatures-001.jpg
 ---
@@ -38,5 +38,6 @@ Barranc de la Palanca, Les Useres, Castelló.
 ![](../../assets/projects/inverted-creatures-002.jpg)
 ![](../../assets/projects/inverted-creatures-001.jpg)
 ![](../../assets/projects/inverted-creatures-004.jpg)
+![](../../assets/projects/inverted-creatures-005.jpg)
 
 </carousel-gallery>
