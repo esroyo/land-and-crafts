@@ -19,10 +19,11 @@ const { Content } = await render(project);
   class ProjectDetails extends HTMLElement {
     connectedCallback() {
           this.addEventListener('click', (ev) => {
-            ev.preventDefault();
             if (ev.target?.matches('.close-button')) {
+                ev.preventDefault();
                 eventBus.dispatchEvent(new CustomEvent<DOMStringMap>(`project:details`, { detail: this.dataset }));
             } else if (ev.target?.matches('.copy-link')) {
+                ev.preventDefault();
                 navigator.clipboard.writeText(ev.target.href);
             }
         });
