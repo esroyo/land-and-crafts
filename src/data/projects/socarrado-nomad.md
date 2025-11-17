@@ -1,6 +1,6 @@
 ---
 title: Socarrado, Sabinares del Ardanza
-description: "<span><strong>Socarrado, Sabinares del Ardanza</strong> &mdash; <em>An emotional shelter for the human reflection, built with juniper trunks left after the 2022 forest fire.</em></span>"
+description: "<span><strong>Socarrado, Sabinares del Ardanza</strong> &mdash; <em>an emotional shelter for the human reflection, built with juniper trunks left after the 2022 forest fire.</em></span>"
 coordinates: [41.97012, -3.39359]
 cover: ../../assets/projects/socarrado_nomad-003.jpg
 ---
@@ -16,13 +16,13 @@ Made from burned juniper (sabina) trunks . The trunks were transported and assem
 
 ### Design
 
-[Nomad Studio] (https://www.thenomadstudio.net/socarrado)
+[Nomad Studio](https://www.thenomadstudio.net/socarrado)
 
 ### Manufacturing
 
-[Somacyl] (https://somacyl.es/), provided the juniper wood. 
+[Somacyl](https://somacyl.es/), provided the juniper wood. 
 Triturados Montero, moved the trunks.  
-[Almudena Cadalso] (https://www.almudenacadalso.com/), documented the process. 
+[Almudena Cadalso](https://www.almudenacadalso.com/), documented the process. 
 
 ### Location
 Sabinares del Arlanza Natural Park, La Yecla, Burgos
