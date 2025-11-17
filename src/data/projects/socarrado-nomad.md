@@ -16,13 +16,13 @@ Made from burned juniper (sabina) trunks . The trunks were transported and assem
 
 ### Design
 
-Laura Santín and William Roberts of Nomad Studio https://www.thenomadstudio.net/socarrado
+[Nomad Studio] (https://www.thenomadstudio.net/socarrado)
 
 ### Manufacturing
 
-Somacyl https://somacyl.es/, provided the juniper wood. 
+[Somacyl] (https://somacyl.es/), provided the juniper wood. 
 Triturados Montero, moved the trunks.  
-Almudena Cadalso https://www.almudenacadalso.com/, documented the process. 
+[Almudena Cadalso] (https://www.almudenacadalso.com/), documented the process. 
 
 ### Location
 Sabinares del Arlanza Natural Park, La Yecla, Burgos
