@@ -15,7 +15,7 @@ Local wood
 
 ### Design
 
-Birgit Õigus, Tõnis Kalve, Ahti Grünberg and [b210 network](https://www.b210.ee/).
+Birgit Õigus, Tõnis Kalve, Ahti Grünberg and [b210](https://www.b210.ee/).
 
 ### Manufacturing
 
