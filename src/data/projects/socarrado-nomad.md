@@ -30,9 +30,9 @@ Sabinares del Arlanza Natural Park, La Yecla, Burgos
 
 <carousel-gallery>
 
-![](../../assets/projects/forest-megaphones-001.jpg)
-![](../../assets/projects/forest-megaphones-002.jpg)
-![](../../assets/projects/forest-megaphones-003.jpg)
-![](../../assets/projects/forest-megaphones-004.jpg)
+![](../../assets/projects/socarrado_nomad-001.jpg)
+![](../../assets/projects/socarrado_nomad-002.jpg)
+![](../../assets/projects/socarrado_nomad-003.jpg)
+![](../../assets/projects/socarrado_nomad-004.jpg)
 
 </carousel-gallery>
