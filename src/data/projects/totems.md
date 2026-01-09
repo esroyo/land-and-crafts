@@ -1,6 +1,6 @@
 ---
 title: Tòtems
-description: "<span><strong>Tòtems, Envall</strong> &mdash; <em>"ritual spaces from totemism to relearn the lost language of nature".</em></span>"
+description: "<span><strong>Tòtems, Envall</strong> &mdash; <em>ritual spaces from totemism to relearn the lost language of nature.</em></span>"
 coordinates: [42.35017883181724, 0.9872807247854128]
 cover: ../../assets/projects/totems-001.jpg
 ---
