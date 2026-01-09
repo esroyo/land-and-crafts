@@ -20,8 +20,8 @@ Made from burned juniper (sabina) trunks . The trunks were transported and assem
 
 ### Manufacturing
 
-[Somacyl](https://somacyl.es/), provided the juniper wood. 
-Triturados Montero, moved the trunks.  
+[Somacyl](https://somacyl.es/), provided the juniper wood.<br> 
+Triturados Montero, moved the trunks.<br>  
 [Almudena Cadalso](https://www.almudenacadalso.com/), documented the process. 
 
 ### Location
