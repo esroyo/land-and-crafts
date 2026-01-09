@@ -16,9 +16,9 @@ Carmela Forés
 
 ### Manufacturing
 
-Carmela Forés, project development, application of the Shou Sugi Ban technique and final finish with linseed oil.
-Josep Plasencia, technical advice and chainsaw cutting of wood.
-[Cooperativa Envall](https://www.instagram.com/envallcoop/), provided poplar trunk.
+Carmela Forés, project development, application of the Shou Sugi Ban technique and final finish with linseed oil.<br>
+Josep Plasencia, technical advice and chainsaw cutting of wood.<br>
+[Cooperativa Envall](https://www.instagram.com/envallcoop/), provided poplar trunk.<br>
 
 ### Location
 
