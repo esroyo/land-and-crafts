@@ -36,6 +36,9 @@ jobs:
           
           # Slugify
           SLUG=$(echo "$TITLE" | iconv -t ascii//TRANSLIT | sed -E 's/[^a-zA-Z0-9]+/-/g' | tr '[:upper:]' '[:lower:]' | sed 's/^-//;s/-$//')
+          if [ -z "$SLUG" ]; then
+            SLUG="project-${{ github.event.issue.number }}"
+          fi
           FOLDER="src/data/projects/$SLUG"
           mkdir -p "$FOLDER"
 
