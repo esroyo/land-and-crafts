@@ -44,12 +44,23 @@ jobs:
           IMG_MD=""
           COUNT=1
           for URL in $URLS; do
-            CTYPE=$(curl -sI "$URL" | grep -i "content-type" | awk '{print $2}' | tr -d '\r')
-            case "$CTYPE" in
-              *"image/png"*) EXT="png" ;;
-              *"image/webp"*) EXT="webp" ;;
-              *) EXT="jpg" ;;
-            esac
+            CTYPE=$(curl -sI "$URL" | awk -F': ' '/[Cc]ontent-[Tt]ype/ {print $2}' | tr -d '\r')
+            # Ensure the URL points to an image; skip otherwise
+            if echo "$CTYPE" | grep -qi '^image/'; then
+              case "$CTYPE" in
+                *"image/png"*) EXT="png" ;;
+                *"image/webp"*) EXT="webp" ;;
+                *)
+                  # Derive extension from MIME subtype (e.g., image/jpeg -> jpeg)
+                  EXT=$(echo "$CTYPE" | sed -n 's|image/\([^;[:space:]]*\).*|\1|p')
+                  # Fallback only for unparseable image subtypes
+                  [ -z "$EXT" ] && EXT="jpg"
+                  ;;
+              esac
+            else
+              echo "Skipping non-image URL: $URL (content-type: $CTYPE)"
+              continue
+            fi
             NAME="asset-$(printf "%03d" $COUNT).$EXT"
             curl -L "$URL" -o "$FOLDER/$NAME"
             if [ $COUNT -eq 1 ]; then COVER="./$NAME"; fi
