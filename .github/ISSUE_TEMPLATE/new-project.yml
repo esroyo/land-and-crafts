@@ -1,0 +1,56 @@
+name: "Submit New Project"
+description: "Fill out this form to add a new project to the map."
+title: "New Project: "
+labels: ["automated-pr"]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: "Title"
+      placeholder: "e.g., Ruup, Estonian forest library"
+    validations:
+      required: true
+  - type: input
+    id: tagline
+    attributes:
+      label: "Short Tagline"
+      placeholder: "e.g., giant megaphones are used to listen to the forests of Estonia."
+    validations:
+      required: true
+  - type: input
+    id: coordinates
+    attributes:
+      label: "Coordinates"
+      placeholder: "[57.6306577, 26.7548309]"
+    validations:
+      required: true
+      regex: '^\[\s*-?\d+\.?\d*\s*,\s*-?\d+\.?\d*\s*\]$'
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description"
+      placeholder: "Write the full description here..."
+  - type: textarea
+    id: materials
+    attributes:
+      label: "Materials"
+  - type: textarea
+    id: design
+    attributes:
+      label: "Design Credits"
+  - type: textarea
+    id: manufacturing
+    attributes:
+      label: "Manufacturing Credits"
+  - type: input
+    id: location
+    attributes:
+      label: "Human Readable Location"
+      placeholder: "City, Region, Country"
+  - type: textarea
+    id: images
+    attributes:
+      label: "Project Images"
+      description: "Drag and drop your images here. The FIRST image will be used as the cover."
+    validations:
+      required: true

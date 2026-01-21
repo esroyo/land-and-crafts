@@ -1,0 +1,112 @@
+name: Project PR Pipeline
+on:
+  issues:
+    types: [opened, labeled]
+
+jobs:
+  build_project_pr:
+    if: contains(github.event.issue.labels.*.name, 'automated-pr')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Parse Form
+        id: parse
+        uses: peter-murray/issue-forms-body-parser@v3
+        with:
+          issue_id: ${{ github.event.issue.number }}
+          separator: '###'
+
+      - name: Process Data and Assets
+        id: generator
+        run: |
+          PAYLOAD='${{ steps.parse.outputs.payload }}'
+          
+          # Variables
+          TITLE=$(echo $PAYLOAD | jq -r '.title')
+          TAGLINE=$(echo $PAYLOAD | jq -r '.tagline')
+          LOCATION=$(echo $PAYLOAD | jq -r '.location')
+          COORDS=$(echo $PAYLOAD | jq -r '.coordinates' | sed -E 's/[[:space:]]*,[[:space:]]*/, /g')
+          
+          # Slugify
+          SLUG=$(echo "$TITLE" | iconv -t ascii//TRANSLIT | sed -E 's/[^a-zA-Z0-9]+/-/g' | tr '[:upper:]' '[:lower:]' | sed 's/^-//;s/-$//')
+          FOLDER="src/data/projects/$SLUG"
+          mkdir -p "$FOLDER"
+
+          # Images
+          URLS=$(echo '${{ github.event.issue.body }}' | grep -oE 'https://github.com/user-attachments/assets/[a-zA-Z0-9_-]+')
+          IMG_MD=""
+          COUNT=1
+          for URL in $URLS; do
+            CTYPE=$(curl -sI "$URL" | grep -i "content-type" | awk '{print $2}' | tr -d '\r')
+            case "$CTYPE" in
+              *"image/png"*) EXT="png" ;;
+              *"image/webp"*) EXT="webp" ;;
+              *) EXT="jpg" ;;
+            esac
+            NAME="asset-$(printf "%03d" $COUNT).$EXT"
+            curl -L "$URL" -o "$FOLDER/$NAME"
+            if [ $COUNT -eq 1 ]; then COVER="./$NAME"; fi
+            IMG_MD="${IMG_MD}![](./$NAME)\n"
+            ((COUNT++))
+          done
+
+          # Generate MD
+          cat <<EOF > "$FOLDER/index.md"
+          ---
+          title: $TITLE
+          description: "<span><strong>$TITLE</strong> &mdash; <em>$TAGLINE</em></span>"
+          coordinates: $COORDS
+          cover: $COVER
+          ---
+
+          ## $TITLE
+
+          $(echo $PAYLOAD | jq -r '.description')
+
+          ### Material
+
+          $(echo $PAYLOAD | jq -r '.materials')
+
+          ### Design
+
+          $(echo $PAYLOAD | jq -r '.design')
+
+          ### Manufacturing
+
+          $(echo $PAYLOAD | jq -r '.manufacturing')
+
+          ### Location
+
+          $LOCATION
+
+          <carousel-gallery>
+          $(echo -e "$IMG_MD")
+          </carousel-gallery>
+          EOF
+          echo "slug=$SLUG" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: "feat: add project ${{ steps.generator.outputs.slug }}"
+          title: "New Project: ${{ fromJson(steps.parse.outputs.payload).title }}"
+          body: |
+            Automatic submission from Issue #${{ github.event.issue.number }}.
+            
+            Closes #${{ github.event.issue.number }}
+          branch: "project/${{ steps.generator.outputs.slug }}"
+
+      - name: Success Comment
+        if: steps.cpr.outputs.pull-request-number
+        run: |
+          gh issue comment ${{ github.event.issue.number }} --body "✅ **PR Created!** You can track the progress here: ${{ steps.cpr.outputs.pull-request-url }}. Once merged, this issue will close automatically."
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
