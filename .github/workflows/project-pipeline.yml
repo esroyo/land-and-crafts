@@ -58,7 +58,7 @@ jobs:
             curl -L -f "$URL" -o "$FOLDER/$NAME"
             
             if [ $COUNT -eq 1 ]; then COVER_FILE="./$NAME"; fi
-            IMG_MD="${IMG_MD}![]('./$NAME')\n"
+            IMG_MD="${IMG_MD}![](./$NAME)\n"
             ((COUNT++))
           done
 
