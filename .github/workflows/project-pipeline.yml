@@ -28,7 +28,7 @@ jobs:
           TITLE=$(get_field "Title")
           TAGLINE=$(get_field "Short Tagline")
           COORDS=$(get_field "Coordinates")
-          DESCRIPTION=$(get_field "Full Description")
+          DESCRIPTION=$(get_field "Description")
           MATERIALS=$(get_field "Materials")
           DESIGN=$(get_field "Design Credits")
           MANUFACTURING=$(get_field "Manufacturing Credits")
@@ -52,9 +52,19 @@ jobs:
           IMG_MD=""
           COUNT=1
           for URL in $URLS; do
-            # We default to .jpg as GitHub serves various types via these redirect URLs
-            # and curl -L will follow to the actual binary
-            NAME="asset-$(printf "%03d" $COUNT).jpg"
+            # Fetch the content-type header from GitHub's redirect
+            # We use -iL to follow redirects and grab headers
+            CTYPE=$(curl -sIL "$URL" | grep -i "content-type" | tail -n 1 | awk '{print $2}' | tr -d '\r')
+
+            case "$CTYPE" in
+              *"image/png"*)  EXT="png" ;;
+              *"image/gif"*)  EXT="gif" ;;
+              *"image/webp"*) EXT="webp" ;;
+              *"image/svg+xml"*) EXT="svg" ;;
+              *) EXT="jpg" ;; # Default/Fallback for image/jpeg
+            esac
+
+            NAME="$FOLDER-$(printf "%03d" $COUNT).$EXT"
             curl -L -f "$URL" -o "$FOLDER/$NAME"
             
             if [ $COUNT -eq 1 ]; then COVER_FILE="./$NAME"; fi
