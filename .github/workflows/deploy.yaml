@@ -51,16 +51,17 @@ jobs:
                 URL="https://land-and-crafts--$SAFE_BRANCH.deno.dev"
 
                 # 3. Create the comment body with a hidden "fingerprint" tag
-                COMMENT_BODY="🚀 **Preview Deployment Ready!**
-                
-                You can view the changes for this submission here:
-                [$URL]($URL)
-                
-                _Last updated: $(date -u +'%Y-%m-%d %H:%M:%D') UTC_
-                "
+                COMMENT_BODY="<!-- deploy-preview-comment: land-and-crafts -->
+🚀 **Preview Deployment Ready!**
+
+You can view the changes for this submission here:
+[$URL]($URL)
+
+_Last updated: $(date -u +'%Y-%m-%d %H:%M:%D') UTC_
+"
 
                 # 4. Check for an existing comment by searching for the hidden tag
-                EXISTING_COMMENT_ID=$(gh pr view $PR_NUMBER --json comments -q ".comments[] | select(.body | contains(\"\")) | .id" | head -n 1)
+                EXISTING_COMMENT_ID=$(gh pr view $PR_NUMBER --json comments -q ".comments[] | select(.body | contains(\"<!-- deploy-preview-comment: land-and-crafts -->\")) | .id" | head -n 1)
 
                 if [ -n "$EXISTING_COMMENT_ID" ]; then
                   echo "Updating existing comment $EXISTING_COMMENT_ID..."
