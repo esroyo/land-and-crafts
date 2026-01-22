@@ -106,7 +106,9 @@ jobs:
           $LOCATION
 
           <carousel-gallery>
+
           $(echo -e "$IMG_MD")
+
           </carousel-gallery>
           EOF
 
