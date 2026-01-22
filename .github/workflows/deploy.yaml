@@ -64,7 +64,7 @@ jobs:
 
                 if [ -n "$EXISTING_COMMENT_ID" ]; then
                   echo "Updating existing comment $EXISTING_COMMENT_ID..."
-                  gh pr comment $PR_NUMBER --edit-last -b "$COMMENT_BODY" || gh api -X PATCH "repos/${{ github.repository }}/issues/comments/$EXISTING_COMMENT_ID" -f body="$COMMENT_BODY"
+                  gh api -X PATCH "repos/${{ github.repository }}/issues/comments/$EXISTING_COMMENT_ID" -f body="$COMMENT_BODY"
                 else
                   echo "Creating new comment..."
                   gh pr comment $PR_NUMBER --body "$COMMENT_BODY"
