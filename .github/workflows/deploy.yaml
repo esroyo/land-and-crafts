@@ -8,6 +8,7 @@ jobs:
         permissions:
             id-token: write # Needed for auth with Deno Deploy
             contents: read # Needed to clone the repository
+            pull-requests: write
 
         steps:
             - name: Clone repository
@@ -34,3 +35,37 @@ jobs:
                   # entrypoint: dist/server/entry.mjs
                   entrypoint: jsr:@std/http/file-server
                   root: dist/client
+
+            - name: Post Preview Link to PR
+              if: github.ref != 'refs/heads/main'
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                # 1. Identify the PR
+                PR_NUMBER=$(gh pr view --json number -q .number || echo "")
+                if [ -z "$PR_NUMBER" ]; then exit 0; fi
+
+                # 2. Construct the Preview URL
+                # Replace slashes in branch name with dashes for Deno URL compatibility
+                SAFE_BRANCH=$(echo ${{ github.ref_name }} | sed 's/\//-/g')
+                URL="https://land-and-crafts--$SAFE_BRANCH.deno.dev"
+
+                # 3. Create the comment body with a hidden "fingerprint" tag
+                COMMENT_BODY="🚀 **Preview Deployment Ready!**
+                
+                You can view the changes for this submission here:
+                [$URL]($URL)
+                
+                _Last updated: $(date -u +'%Y-%m-%d %H:%M:%D') UTC_
+                "
+
+                # 4. Check for an existing comment by searching for the hidden tag
+                EXISTING_COMMENT_ID=$(gh pr view $PR_NUMBER --json comments -q ".comments[] | select(.body | contains(\"\")) | .id" | head -n 1)
+
+                if [ -n "$EXISTING_COMMENT_ID" ]; then
+                  echo "Updating existing comment $EXISTING_COMMENT_ID..."
+                  gh pr comment $PR_NUMBER --edit-last -b "$COMMENT_BODY" || gh api -X PATCH "repos/${{ github.repository }}/issues/comments/$EXISTING_COMMENT_ID" -f body="$COMMENT_BODY"
+                else
+                  echo "Creating new comment..."
+                  gh pr comment $PR_NUMBER --body "$COMMENT_BODY"
+                fi
