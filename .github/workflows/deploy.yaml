@@ -57,7 +57,7 @@ jobs:
 You can view the changes for this submission here:
 [$URL]($URL)
 
-_Last updated: $(date -u +'%Y-%m-%d %H:%M:%D') UTC_
+_Last updated: $(date -u +'%Y-%m-%d %H:%M:%S') UTC_
 "
 
                 # 4. Check for an existing comment by searching for the hidden tag
