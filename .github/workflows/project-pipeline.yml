@@ -54,7 +54,11 @@ jobs:
           for URL in $URLS; do
             # Fetch the content-type header from GitHub's redirect
             # We use -iL to follow redirects and grab headers
-            CTYPE=$(curl -sIL "$URL" | grep -i "content-type" | tail -n 1 | awk '{print $2}' | tr -d '\r')
+            CTYPE=$(curl -sIL "$URL" | awk -F': ' '/[Cc]ontent-[Tt]ype/ { ctype=$2 } END { gsub(/\r/, "", ctype); print ctype }')
+            # Fallback if content-type could not be determined
+            if [ -z "$CTYPE" ]; then
+              CTYPE="image/jpeg"
+            fi
 
             case "$CTYPE" in
               *"image/png"*)  EXT="png" ;;
