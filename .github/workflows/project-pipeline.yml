@@ -16,25 +16,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Parse Form
-        id: parse
-        uses: peter-murray/issue-forms-body-parser@v3
-        with:
-          issue_id: ${{ github.event.issue.number }}
-          separator: '###'
-
-      - name: Process Data and Assets
+      - name: Process Issue Content
         id: generator
         run: |
-          PAYLOAD='${{ steps.parse.outputs.payload }}'
-          
-          # Variables
-          TITLE=$(echo $PAYLOAD | jq -r '.title')
-          TAGLINE=$(echo $PAYLOAD | jq -r '.tagline')
-          LOCATION=$(echo $PAYLOAD | jq -r '.location')
-          COORDS=$(echo $PAYLOAD | jq -r '.coordinates' | sed -E 's/[[:space:]]*,[[:space:]]*/, /g')
-          
-          # Slugify
+          # Helper function to extract content between H3 headers
+          get_field() {
+            echo "${{ github.event.issue.body }}" | sed -n "/### $1/,/###/p" | sed '1d;$d' | xargs
+          }
+
+          # Extract Data
+          TITLE=$(get_field "Title")
+          TAGLINE=$(get_field "Short Tagline")
+          COORDS=$(get_field "Coordinates")
+          DESCRIPTION=$(get_field "Full Description")
+          MATERIALS=$(get_field "Materials")
+          DESIGN=$(get_field "Design Credits")
+          MANUFACTURING=$(get_field "Manufacturing Credits")
+          LOCATION=$(get_field "Human Readable Location")
+
+
+          # Extract text before the first comma. If no comma, use the full string.
+          LOCATION_FIRST_SEGMENT=$(echo "$LOCATION" | cut -d',' -f1 | xargs)
+
+          # Slugify Title for Folder Path
           SLUG=$(echo "$TITLE" | iconv -t ascii//TRANSLIT | sed -E 's/[^a-zA-Z0-9]+/-/g' | tr '[:upper:]' '[:lower:]' | sed 's/^-//;s/-$//')
           if [ -z "$SLUG" ]; then
             SLUG="project-${{ github.event.issue.number }}"
@@ -42,59 +46,46 @@ jobs:
           FOLDER="src/data/projects/$SLUG"
           mkdir -p "$FOLDER"
 
-          # Images
+          # Process Images
           URLS=$(echo '${{ github.event.issue.body }}' | grep -oE 'https://github.com/user-attachments/assets/[a-zA-Z0-9_-]+')
+          
           IMG_MD=""
           COUNT=1
           for URL in $URLS; do
-            CTYPE=$(curl -sI "$URL" | awk -F': ' '/[Cc]ontent-[Tt]ype/ {print $2}' | tr -d '\r')
-            # Ensure the URL points to an image; skip otherwise
-            if echo "$CTYPE" | grep -qi '^image/'; then
-              case "$CTYPE" in
-                *"image/png"*) EXT="png" ;;
-                *"image/webp"*) EXT="webp" ;;
-                *)
-                  # Derive extension from MIME subtype (e.g., image/jpeg -> jpeg)
-                  EXT=$(echo "$CTYPE" | sed -n 's|image/\([^;[:space:]]*\).*|\1|p')
-                  # Fallback only for unparseable image subtypes
-                  [ -z "$EXT" ] && EXT="jpg"
-                  ;;
-              esac
-            else
-              echo "Skipping non-image URL: $URL (content-type: $CTYPE)"
-              continue
-            fi
-            NAME="asset-$(printf "%03d" $COUNT).$EXT"
-            curl -L "$URL" -o "$FOLDER/$NAME"
-            if [ $COUNT -eq 1 ]; then COVER="./$NAME"; fi
+            # We default to .jpg as GitHub serves various types via these redirect URLs
+            # and curl -L will follow to the actual binary
+            NAME="asset-$(printf "%03d" $COUNT).jpg"
+            curl -L -f "$URL" -o "$FOLDER/$NAME"
+            
+            if [ $COUNT -eq 1 ]; then COVER_FILE="./$NAME"; fi
             IMG_MD="${IMG_MD}![](./$NAME)\n"
             ((COUNT++))
           done
 
-          # Generate MD
+          # Generate index.md
           cat <<EOF > "$FOLDER/index.md"
           ---
           title: $TITLE
-          description: "<span><strong>$TITLE</strong> &mdash; <em>$TAGLINE</em></span>"
-          coordinates: $COORDS
-          cover: $COVER
+          description: "<span><strong>$TITLE, $LOCATION_FIRST_SEGMENT</strong> &mdash; <em>$TAGLINE</em></span>"
+          coordinates: $(echo "$COORDS" | sed -E 's/[[:space:]]*,[[:space:]]*/, /g')
+          cover: $COVER_FILE
           ---
 
           ## $TITLE
 
-          $(echo $PAYLOAD | jq -r '.description')
+          $DESCRIPTION
 
           ### Material
 
-          $(echo $PAYLOAD | jq -r '.materials')
+          $MATERIALS
 
           ### Design
 
-          $(echo $PAYLOAD | jq -r '.design')
+          $DESIGN
 
           ### Manufacturing
 
-          $(echo $PAYLOAD | jq -r '.manufacturing')
+          $MANUFACTURING
 
           ### Location
 
@@ -104,19 +95,23 @@ jobs:
           $(echo -e "$IMG_MD")
           </carousel-gallery>
           EOF
+
+          # 6. Set Outputs for next steps
           echo "slug=$SLUG" >> $GITHUB_OUTPUT
+          echo "title=$TITLE" >> $GITHUB_OUTPUT
 
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v5
         with:
           commit-message: "feat: add project ${{ steps.generator.outputs.slug }}"
-          title: "New Project: ${{ fromJson(steps.parse.outputs.payload).title }}"
+          title: "New Project: ${{ steps.generator.outputs.title }}"
           body: |
             Automatic submission from Issue #${{ github.event.issue.number }}.
             
             Closes #${{ github.event.issue.number }}
           branch: "project/${{ steps.generator.outputs.slug }}"
+          base: main
 
       - name: Success Comment
         if: steps.cpr.outputs.pull-request-number
