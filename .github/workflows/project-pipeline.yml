@@ -19,9 +19,16 @@ jobs:
       - name: Process Issue Content
         id: generator
         run: |
-          # Helper function to extract content between H3 headers
+          # Capture the body once to avoid expansion issues
+          BODY=$(cat << 'EOF'
+          ${{ github.event.issue.body }}
+          EOF
+          )
+
+          # Uses sed to extract lines between headers and
+          # another sed to trim leading/trailing whitespace safely.
           get_field() {
-            echo "${{ github.event.issue.body }}" | sed -n "/### $1/,/###/p" | sed '1d;$d' | xargs
+            echo "$BODY" | sed -n "/^### $1/,/^###/p" | sed '1d;$d' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
           }
 
           # Extract Data
@@ -34,9 +41,8 @@ jobs:
           MANUFACTURING=$(get_field "Manufacturing Credits")
           LOCATION=$(get_field "Human Readable Location")
 
-
           # Extract text before the first comma. If no comma, use the full string.
-          LOCATION_FIRST_SEGMENT=$(echo "$LOCATION" | cut -d',' -f1 | xargs)
+          LOCATION_FIRST_SEGMENT=$(echo "$LOCATION" | cut -d',' -f1 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 
           # Slugify Title for Folder Path
           SLUG=$(echo "$TITLE" | iconv -t ascii//TRANSLIT | sed -E 's/[^a-zA-Z0-9]+/-/g' | tr '[:upper:]' '[:lower:]' | sed 's/^-//;s/-$//')
