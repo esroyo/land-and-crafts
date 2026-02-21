@@ -5,4 +5,7 @@ export const TILES_URL = 'https://b.tile.openstreetmap.fr/hot';
 // zoom = floor((width - 100) / 350) + 3
 export const getZoom = (
     w: number = window?.visualViewport?.width ?? window.innerWidth,
-) => Math.max(3, Math.min(6, Math.floor((w - 100) / 350) + 3));
+) => {
+    const value = Math.max(3, Math.min(5, Math.floor((w - 100) / 350) + 3));
+    return value;
+};

@@ -35,11 +35,14 @@ const { Content } = await render(project);
 <style>
 project-details {
   display: block;
-  position: relative;
   padding: 2rem;
 
   &[data-project-selected="0"] {
       display: none;
+  }
+
+  :first-child {
+      margin-top: 0;
   }
 }
 

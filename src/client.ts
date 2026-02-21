@@ -59,6 +59,7 @@ eventBus.addEventListener(
                 9,
             );
             history.replaceState(null, '', `#project:${projectId}`);
+            detailsSection.querySelector('.details-collection')?.scrollTo({ top: 0 });
             detailsSection.classList.remove('hide');
         };
         const hideAndMaybeUpdate = () => {
