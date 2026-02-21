@@ -8,6 +8,7 @@ import Layout from '../layouts/Layout.astro';
 import LeafletMarker from '../components/LeafletMarker.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ProjectDetails from '../components/ProjectDetails.astro';
+import ProjectDetailsClose from '../components/ProjectDetailsClose.astro';
 
 const projects = await getCollection('projects');
 const coordinates = projects.map(p => p.data.coordinates).reduce((acc, cur) => [acc[0] + cur[0], acc[1] + cur[1]], [0, 0]).map((sum: number) => sum / projects.length);
@@ -29,7 +30,10 @@ const headerHeightSmall = '4rem';
             { projects.map((project) => <LeafletMarker { project } />) }
         </section>
         <section class="details hide" id="detailsSection">
-            { projects.map((project) => <ProjectDetails { project } />) }
+            <ProjectDetailsClose />
+            <div class="details-collection">
+                { projects.map((project) => <ProjectDetails { project } />) }
+            </div>
         </section>
     </main>
     <CarouselGallery />
@@ -95,14 +99,17 @@ main {
   height: 100%;
   width: 100%;
 }
-
+.details-collection {
+  height: 100%;
+  overflow: auto;
+}
 .details {
   grid-area: 1 / 4 / 3 / 6;
   background: white;
   z-index: 1000; /* same as leaflet max */
   height: 100%;
   width: 100%;
-
+  position: relative;
   transition: transform 0.3s ease;
 
   &.hide {
