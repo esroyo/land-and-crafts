@@ -11,7 +11,9 @@ import ProjectDetails from '../components/ProjectDetails.astro';
 import ProjectDetailsClose from '../components/ProjectDetailsClose.astro';
 
 const projects = await getCollection('projects');
-const coordinates = projects.map(p => p.data.coordinates).reduce((acc, cur) => [acc[0] + cur[0], acc[1] + cur[1]], [0, 0]).map((sum: number) => sum / projects.length);
+const coordinatesMax = projects.map(p => p.data.coordinates).reduce((acc, cur) => [Math.max(acc[0], cur[0]), Math.max(acc[1], cur[1])], [-Infinity, -Infinity]);
+const coordinatesMin = projects.map(p => p.data.coordinates).reduce((acc, cur) => [Math.min(acc[0], cur[0]), Math.min(acc[1], cur[1])], [+Infinity, +Infinity]);
+const coordinates = [((coordinatesMax[0] - coordinatesMin[0]) / 2) + coordinatesMin[0], ((coordinatesMax[1] - coordinatesMin[1]) / 2) + coordinatesMin[1]];
 const backgroundColor = '#182121';
 const headerHeight = '17rem';
 const headerHeightSmall = '4rem';
