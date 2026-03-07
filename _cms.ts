@@ -27,12 +27,12 @@ cms.storage('src', storage);
 
 cms.upload({
     name: 'projects',
-    store: 'fs:content/projects',
+    store: 'fs:content/projects/**/*',
 });
 
 cms.collection({
     name: 'projects',
-    store: 'fs:content/projects/*/index.md',
+    store: 'fs:content/projects/**/index.md',
     fields: [
         {
             name: 'title',
