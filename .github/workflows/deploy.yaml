@@ -48,7 +48,7 @@ jobs:
         with:
           project: land-and-crafts-admin
           entrypoint: _cms.ts
-          include: deno.jsonc,_cms.ts,src/common.ts,content
+          include: deno.jsonc,_cms.ts,src/common.ts
 
       - name: Upload to Deno Deploy (site)
         uses: denoland/deployctl@v1
