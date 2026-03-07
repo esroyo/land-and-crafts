@@ -37,13 +37,20 @@ jobs:
       - name: Install Playwright Browsers
         run: deno run -A npm:playwright install chromium --with-deps
 
-      - name: Run Tests
-        run: deno task test
-
       - name: Build Astro
         run: deno task build
 
-      - name: Upload to Deno Deploy
+      - name: Run Tests
+        run: deno task test
+
+      - name: Upload to Deno Deploy (admin)
+        uses: denoland/deployctl@v1
+        with:
+          project: land-and-crafts-admin
+          entrypoint: _cms.ts
+          include: deno.jsonc,_cms.ts,src/common.ts,content
+
+      - name: Upload to Deno Deploy (site)
         uses: denoland/deployctl@v1
         with:
           project: land-and-crafts

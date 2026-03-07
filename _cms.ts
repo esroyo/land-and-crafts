@@ -22,21 +22,45 @@ cms.collection({
     name: 'projects',
     store: 'fs:content/projects/*/index.md',
     fields: [
-        { name: 'title', type: 'text' },
+        {
+            name: 'title',
+            type: 'text',
+        },
         {
             name: 'description',
             label: 'tagline',
             type: 'rich-text',
             relativePath: true,
         },
-        { name: 'coordinates', type: 'text' },
+        {
+            name: 'coordinates',
+            type: 'text',
+            init(field, _content, data) {
+                try {
+                    if (typeof data[field.name] !== 'string') {
+                        data[field.name] = JSON.stringify(data[field.name]);
+                    }
+                } catch { /* empty */ }
+            },
+            transform(value) {
+                try {
+                    return JSON.parse(value);
+                } catch {
+                    return value;
+                }
+            },
+        },
         {
             name: 'cover',
             type: 'file',
             relativePath: true,
             upload: 'projects:{document_dirname}',
         },
-        { name: 'content', relativePath: true, type: 'markdown' },
+        {
+            name: 'content',
+            type: 'markdown',
+            relativePath: true,
+        },
     ],
 });
 
