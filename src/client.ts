@@ -5,6 +5,7 @@ const { detailsSection, mapSection } = window;
 let map: Map;
 Map.addInitHook(function (this: Map) {
     map = this;
+    window.map = this;
 });
 
 export const eventBus = new EventTarget();
@@ -59,7 +60,9 @@ eventBus.addEventListener(
                 9,
             );
             history.replaceState(null, '', `#project:${projectId}`);
-            detailsSection.querySelector('.details-collection')?.scrollTo({ top: 0 });
+            detailsSection.querySelector('.details-collection')?.scrollTo({
+                top: 0,
+            });
             detailsSection.classList.remove('hide');
         };
         const hideAndMaybeUpdate = () => {
