@@ -9,7 +9,7 @@ const projects = defineCollection({
             description: z.string(),
             cover: image(),
         }),
-    loader: glob({ pattern: '**/*.md', base: './src/data/projects' }),
+    loader: glob({ pattern: '**/*.md', base: './content/projects' }),
 });
 
 export const collections = { projects };
