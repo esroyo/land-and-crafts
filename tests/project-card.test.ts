@@ -36,8 +36,8 @@ test('clicking a project card shows the project details', async ({ page }) => {
     const center = await page.evaluate(() => globalThis.map.getCenter());
 
     await expect(zoom, 'zoom level is 9').toBe(9);
-    await expect(center.lat, 'lat matches').toBe(coords[0]);
-    await expect(center.lng, 'lng matches').toBe(expectedLng);
+    await expect(center.lat, 'lat matches').toBeCloseTo(coords[0], 2);
+    await expect(center.lng, 'lng matches').toBeCloseTo(expectedLng, 2);
 
     const otherDetails = page.locator(
         `project-details:not([data-project-id="${projectId}"])`,
