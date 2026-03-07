@@ -2,7 +2,7 @@
 title: 'Ruup, Estonian forest library'
 description: >-
   <p><strong>Ruup, Estonian forest library</strong> — <em>giant megaphones are
-  used to listen to the forests of Estonia..</em></p>
+  used to listen to the forests of Estonia.</em></p>
 coordinates:
   - 57.6306577
   - 26.7548309
