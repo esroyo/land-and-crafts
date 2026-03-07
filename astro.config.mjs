@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import deno from '@deno/astro-adapter';
+import denoAdapter from '@deno/astro-adapter';
+import denoPlugin from '@deno/vite-plugin';
 
 // https://astro.build/config
 export default defineConfig({
@@ -9,5 +10,8 @@ export default defineConfig({
         responsiveStyles: true,
     },
     output: 'static',
-    adapter: deno(),
+    adapter: denoAdapter(),
+    vite: {
+        plugins: [denoPlugin()],
+    },
 });
