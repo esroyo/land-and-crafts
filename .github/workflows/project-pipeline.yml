@@ -33,16 +33,18 @@ jobs:
 
           # Extract Data
           TITLE=$(get_field "Title")
+          TITLE_ESCAPED=$(echo "$TITLE" | sed "s/'/''/g")
+          TITLE_HTML_ESCAPED=$(echo "$TITLE" | sed 's/&/\\&/g; s/"/\\"/g; s/</\\</g; s/>/\\>/g')
           TAGLINE=$(get_field "Short Tagline")
+          TAGLINE_HTML_ESCAPED=$(echo "$TAGLINE" | sed 's/&/\\&/g; s/"/\\"/g; s/</\\</g; s/>/\\>/g')
           COORDS=$(get_field "Coordinates")
           DESCRIPTION=$(get_field "Description")
           MATERIALS=$(get_field "Materials")
           DESIGN=$(get_field "Design Credits")
           MANUFACTURING=$(get_field "Manufacturing Credits")
           LOCATION=$(get_field "Human Readable Location")
-
-          # Extract text before the first comma. If no comma, use the full string.
           LOCATION_FIRST_SEGMENT=$(echo "$LOCATION" | cut -d',' -f1 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+          LOCATION_FIRST_SEGMENT_HTML_ESCAPED=$(echo "$LOCATION_FIRST_SEGMENT" | sed 's/&/\\&/g; s/"/\\"/g; s/</\\</g; s/>/\\>/g')
 
           # Slugify Title for Folder Path
           SLUG=$(echo "$TITLE" | iconv -t ascii//TRANSLIT | sed -E 's/[^a-zA-Z0-9]+/-/g' | tr '[:upper:]' '[:lower:]' | sed 's/^-//;s/-$//')
@@ -82,15 +84,19 @@ jobs:
             ((COUNT++))
           done
 
-          # Generate index.md
+          COORD_1=$(echo "$COORDS" | cut -d',' -f1 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+          COORD_2=$(echo "$COORDS" | cut -d',' -f2 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+
           cat <<EOF > "$FOLDER/index.md"
           ---
-          title: $TITLE
-          description: "<span><strong>$TITLE, $LOCATION_FIRST_SEGMENT</strong> &mdash; <em>$TAGLINE</em></span>"
-          coordinates: $(echo "$COORDS" | sed -E 's/[[:space:]]*,[[:space:]]*/, /g')
+          title: '$TITLE_ESCAPED'
+          description: >-
+            <span><strong>$TITLE_HTML_ESCAPED, $LOCATION_FIRST_SEGMENT_HTML_ESCAPED</strong> &mdash; <em>$TAGLINE_HTML_ESCAPED</em></span>
+          coordinates: |-
+            - $COORD_1
+            - $COORD_2
           cover: $COVER_FILE
           ---
-
           ## $TITLE
 
           $DESCRIPTION
