@@ -5,7 +5,7 @@ description: >-
   used to listen to the forests of Estonia.</em></p>
 coordinates:
   - 57.6306577
-  - 26.7548308
+  - 26.7548309
 cover: ./forest-megaphones-003.jpg
 ---
 ## Ruup, forest library
