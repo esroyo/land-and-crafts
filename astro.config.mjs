@@ -1,7 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import denoAdapter from '@deno/astro-adapter';
-import denoPlugin from '@deno/vite-plugin';
+//import denoPlugin from '@deno/vite-plugin';
+import denoPlugin from './deno-vite-plugin.ts';
 
 // https://astro.build/config
 export default defineConfig({
