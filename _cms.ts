@@ -5,6 +5,7 @@ import GitHub from 'lume/cms/storage/github.ts';
 import { description, title as name } from './src/common.ts';
 
 const cms = lumeCMS({
+    basePath: '/admin',
     site: {
         name,
         description,
@@ -22,8 +23,6 @@ const repo = Deno.env.get('GITHUB_REPO');
 
 const storage = token && repo ? GitHub.create(repo, token) : Fs.create('');
 cms.storage('fs', storage);
-
-cms.storage('src', storage);
 
 cms.upload({
     name: 'projects',
