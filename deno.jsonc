@@ -30,6 +30,7 @@
         "leaflet": "npm:leaflet@^2.0.0-alpha",
         "lume/cms/": "https://cdn.jsdelivr.net/gh/lumeland/cms@0.14.16/",
         "neotraverse/modern": "npm:neotraverse/modern",
+        "octokit": "npm:octokit",
         "p-limit": "npm:p-limit",
         "sharp": "npm:sharp",
         "unstorage": "npm:unstorage",
