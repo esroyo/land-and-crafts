@@ -23,8 +23,6 @@ const repo = Deno.env.get('GITHUB_REPO');
 const storage = token && repo ? GitHub.create(repo, token) : Fs.create('');
 cms.storage('fs', storage);
 
-cms.storage('src', storage);
-
 cms.upload({
     name: 'projects',
     store: 'fs:content/projects/**/*',

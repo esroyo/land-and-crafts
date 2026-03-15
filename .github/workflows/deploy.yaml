@@ -37,6 +37,14 @@ jobs:
       - name: Install Playwright Browsers
         run: deno run -A npm:playwright install chromium --with-deps
 
+      - name: Cache Astro build
+        uses: actions/cache@v4
+        with:
+          path: .astro
+          key: ${{ runner.os }}-astro-${{ hashFiles('deno.lock', 'astro.config.mjs') }}
+          restore-keys: |
+            ${{ runner.os }}-astro-
+
       - name: Build Astro
         run: deno task build
 
