@@ -29,6 +29,7 @@ Photos - Jette Mellgren, Jan Johansen & Rittisberg Landart
 
 ### Location
 Rittisberg, Ramsau am Dachstein, Austria, 2023
+
 <carousel-gallery>
   
 ![](./tunnel-hope-001.jpg)
