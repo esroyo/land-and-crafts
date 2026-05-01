@@ -1,6 +1,7 @@
 {
     "tasks": {
-        "admin": "deno serve -A --unstable-temporal _cms.ts",
+        "admin": "deno serve -A --env-file --unstable-temporal _cms.ts",
+        "admin:inspect": "deno serve -A --env-file --inspect --unstable-temporal _cms.ts",
         "dev": "deno run -A --unstable-detect-cjs npm:astro@5 dev",
         "build": "deno run -A --unstable-detect-cjs npm:astro@5 build",
         // "preview": "deno run -A --unstable-detect-cjs npm:astro@5 preview",
@@ -28,7 +29,8 @@
         "html-escaper": "npm:html-escaper",
         "kleur/colors": "npm:kleur/colors",
         "leaflet": "npm:leaflet@^2.0.0-alpha",
-        "lume/cms/": "https://cdn.jsdelivr.net/gh/lumeland/cms@0.14.16/",
+        //"lume/cms/": "https://cdn.jsdelivr.net/gh/lumeland/cms@0.15.0/",
+        "lume/cms/": "https://cdn.jsdelivr.net/gh/esroyo/cms@eaf17bd/",
         "neotraverse/modern": "npm:neotraverse/modern",
         "octokit": "npm:octokit",
         "p-limit": "npm:p-limit",

@@ -1,6 +1,7 @@
 import lumeCMS from 'lume/cms/mod.ts';
 import Fs from 'lume/cms/storage/fs.ts';
 import GitHub from 'lume/cms/storage/github.ts';
+import AuthGitHub from 'lume/cms/auth/github.ts';
 
 import { description, title as name } from './src/common.ts';
 
@@ -11,17 +12,29 @@ const cms = lumeCMS({
     },
 });
 
-const user = Deno.env.get('ADMIN_USERNAME') || 'admin';
-const password = Deno.env.get('ADMIN_PASSWORD') || '';
-cms.auth({
-    [user]: password,
+// FS fallback/default
+cms.storage('fs', Fs.create(''));
+
+const authGitHubProvider = new AuthGitHub({
+    authSecret: Deno.env.get('AUTH_SECRET'),
+    clientId: Deno.env.get('GITHUB_CLIENT_ID'),
+    clientSecret: Deno.env.get('GITHUB_CLIENT_SECRET'),
 });
-
-const token = Deno.env.get('GITHUB_TOKEN');
-const repo = Deno.env.get('GITHUB_REPO');
-
-const storage = token && repo ? GitHub.create(repo, token) : Fs.create('');
-cms.storage('fs', storage);
+authGitHubProvider.addEventListener('authentication', (ev) => {
+    const token = ev.detail.authentication.token;
+    const repo = Deno.env.get('GITHUB_REPO');
+    if (token && repo) {
+        cms.storage('fs', GitHub.create(repo, token));
+        // Reinitialize the CMS :/
+        cms.fetch = cms.init().fetch;
+    }
+});
+cms.auth(
+    Object.fromEntries(
+        Deno.env.get('AUTH_USERS').split(',').map((user) => [user, '']),
+    ),
+    authGitHubProvider,
+);
 
 cms.upload({
     name: 'projects',
