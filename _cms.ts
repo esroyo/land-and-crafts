@@ -31,7 +31,7 @@ authGitHubProvider.addEventListener('authentication', (ev) => {
 });
 cms.auth(
     Object.fromEntries(
-        Deno.env.get('AUTH_USERS').split(',').map((user) => [user, '']),
+        Deno.env.get('ADMIN_USERS').split(',').map((user) => [user, '']),
     ),
     authGitHubProvider,
 );

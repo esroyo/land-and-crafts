@@ -30,7 +30,7 @@
         "kleur/colors": "npm:kleur/colors",
         "leaflet": "npm:leaflet@^2.0.0-alpha",
         //"lume/cms/": "https://cdn.jsdelivr.net/gh/lumeland/cms@0.15.0/",
-        "lume/cms/": "https://cdn.jsdelivr.net/gh/esroyo/cms@eaf17bd/",
+        "lume/cms/": "https://cdn.jsdelivr.net/gh/esroyo/cms@35386d6/",
         "neotraverse/modern": "npm:neotraverse/modern",
         "octokit": "npm:octokit",
         "p-limit": "npm:p-limit",
