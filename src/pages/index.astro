@@ -15,15 +15,16 @@ const coordinatesMax = projects.map(p => p.data.coordinates).reduce((acc, cur) =
 const coordinatesMin = projects.map(p => p.data.coordinates).reduce((acc, cur) => [Math.min(acc[0], cur[0]), Math.min(acc[1], cur[1])], [+Infinity, +Infinity]);
 const coordinates = [((coordinatesMax[0] - coordinatesMin[0]) / 2) + coordinatesMin[0], ((coordinatesMax[1] - coordinatesMin[1]) / 2) + coordinatesMin[1]];
 const backgroundColor = '#182121';
-const headerHeight = '17rem';
-const headerHeightSmall = '4rem';
+const secondaryBackgroundColor = '#324242';
 ---
 
 <Layout>
-    <main style={ `--backgroundColor: ${backgroundColor}; --headerHeight: ${headerHeight}; --headerHeightSmall: ${headerHeightSmall}` }>
+    <main style={ `--backgroundColor: ${backgroundColor}; --secondaryBackgroundColor: ${secondaryBackgroundColor}` }>
         <header class="header" id="headerSection">
-            <Logo aria-labeld={ title } role="img" class="logo" />
+            <details id="headerDescription">
+                <summary><Logo aria-labeld={ title } role="img" class="logo" /></summary>
             <p>Map of <em>site-specific</em> artifacts that explore the relationship between human beings and nature through biocentric and multispecies design. Each project generates an aesthetic experience integrated into the environment, through the use of local materials and traditional or contemporary artisan techniques.</p>
+            </details>
         </header>
         <section class="sidebar" id="sidebarSection">
             { projects.map((project) => <ProjectCard { project } />) }
@@ -43,13 +44,16 @@ const headerHeightSmall = '4rem';
 
 <script>
     import { Map, TileLayer } from 'leaflet';
-    import { TILES_URL, getZoom } from '../common.ts';
+    import { TILES_URL, getZoom, isMobile } from '../common.ts';
 
     const map = new Map(mapSection).setView(mapSection.dataset.initialCoordinates.split(','), getZoom());
     const tile = new TileLayer(`${TILES_URL}/{z}/{x}/{y}.png`, {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
+
+    // Open header description by default on desktop; closed on mobile.
+    headerDescription.open = !isMobile();
 </script>
 
 <style>
@@ -57,7 +61,7 @@ main {
   height: 100%;
   display: grid;
   grid-template-columns: minmax(300px, 1fr) 1fr 1fr 1fr 1fr;
-  grid-template-rows: var(--headerHeight) 1fr;
+  grid-template-rows: auto 1fr;
   grid-template-areas:
     "header map map map map"
     "sidebar map map map map";
@@ -86,12 +90,47 @@ main {
       font-size: .9rem;
       margin-top: 0;
   }
+
+  details summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+
+    .logo {
+        flex: 1;
+    }
+
+    &::after {
+        content: "i";
+        flex-shrink: 0;
+        width: 1.75rem;
+        aspect-ratio: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        background-color: var(--secondaryBackgroundColor);
+        font-family: serif;
+        font-style: italic;
+        font-weight: bold;
+        margin-top: -0.5rem;
+    }
+
+    [open] &::after {
+        content: "×";
+        font-family: inherit;
+        font-style: normal;
+    }
+  }
 }
 
 .sidebar {
   grid-area: sidebar;
   background: var(--backgroundColor);
-  max-height: calc(100dvh - var(--headerHeight));
+  min-height: 0;
+  overflow: auto;
   scrollbar-color: #EEE var(--backgroundColor);
 }
 
@@ -122,7 +161,7 @@ main {
 @media (max-width: 768px) {
     main {
         grid-template-columns: 1fr;
-        grid-template-rows: var(--headerHeightSmall) 1fr 60dvh;
+        grid-template-rows: auto 1fr minmax(0, 60dvh);
         grid-template-areas:
             "header"
             "map"
@@ -136,10 +175,5 @@ main {
             transform: translateY(100dvh);
         }
     }
-
-    .header {
-      & p {
-          display: none;
-      }
-    }
+}
 </style>

@@ -1,6 +1,7 @@
 interface Window {
     detailsSection: HTMLDivElement;
     headerSection: HTMLDivElement;
+    headerDescription: HTMLDivElement;
     mapSection: HTMLDivElement;
     sidebarSection: HTMLDivElement;
     map: {

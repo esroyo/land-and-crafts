@@ -1,5 +1,5 @@
 import { LatLng, Map } from 'leaflet';
-import { getZoom } from './common.ts';
+import { getZoom, isMobile } from './common.ts';
 const { detailsSection, mapSection } = window;
 
 let map: Map;
@@ -49,9 +49,7 @@ eventBus.addEventListener(
             if (!hasSameDetails()) {
                 updateDetails();
             }
-            const extraLng = window.matchMedia(`(max-width: 768px)`).matches
-                ? 0
-                : 1;
+            const extraLng = isMobile() ? 0 : 1;
             map?.flyTo(
                 new LatLng(
                     projectCoordinates[0],

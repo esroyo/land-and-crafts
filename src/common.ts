@@ -9,3 +9,5 @@ export const getZoom = (
     const value = Math.max(3, Math.min(5, Math.floor((w - 100) / 350) + 3));
     return value;
 };
+
+export const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
