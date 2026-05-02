@@ -1,0 +1,50 @@
+name: Test
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: # Allows manual triggering from the UI
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # Needed to clone the repository
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Setup deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+          cache: true
+
+      - name: Install dependencies
+        run: deno install
+
+      - name: Cache Playwright Browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('deno.lock') }}
+
+      - name: Install Playwright Browsers
+        run: deno run -A npm:playwright install chromium --with-deps
+
+      - name: Cache Astro build
+        uses: actions/cache@v4
+        with:
+          path: .astro
+          key: ${{ runner.os }}-astro-${{ hashFiles('deno.lock', 'astro.config.mjs') }}
+          restore-keys: |
+            ${{ runner.os }}-astro-
+
+      - name: Build Astro
+        run: deno task build
+
+      - name: Run Tests
+        run: deno task test
