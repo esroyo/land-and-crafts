@@ -3,11 +3,99 @@
 </carousel-gallery>
 
 <script>
+    // A single lightbox is shared by every carousel on the page.
+    let sharedLightbox: HTMLDialogElement | null = null;
+    let sharedLightboxImage: HTMLImageElement | null = null;
+    let activeCarousel: CarouselGallery | null = null;
+
+    function ensureLightbox(): {
+        dialog: HTMLDialogElement;
+        image: HTMLImageElement;
+    } {
+        if (sharedLightbox && sharedLightboxImage) {
+            return { dialog: sharedLightbox, image: sharedLightboxImage };
+        }
+        const dialog = document.createElement('dialog');
+        dialog.className = 'carousel-lightbox';
+        dialog.innerHTML = `
+            <button class="carousel-lightbox-close" aria-label="Close">×</button>
+            <button class="carousel-lightbox-nav prev" aria-label="Previous image">‹</button>
+            <img class="carousel-lightbox-image" alt="" />
+            <button class="carousel-lightbox-nav next" aria-label="Next image">›</button>
+        `;
+        document.body.appendChild(dialog);
+        const image = dialog.querySelector<HTMLImageElement>('.carousel-lightbox-image')!;
+
+        dialog.querySelector<HTMLButtonElement>('.carousel-lightbox-close')
+            ?.addEventListener('click', () => activeCarousel?.closeLightbox());
+        dialog.querySelector<HTMLButtonElement>('.carousel-lightbox-nav.prev')
+            ?.addEventListener('click', () => activeCarousel?.goToPrevSlide());
+        dialog.querySelector<HTMLButtonElement>('.carousel-lightbox-nav.next')
+            ?.addEventListener('click', () => activeCarousel?.goToNextSlide());
+
+        // Backdrop click closes (clicks on the dialog element itself, not its children).
+        dialog.addEventListener('click', (ev) => {
+            if (ev.target === dialog) activeCarousel?.closeLightbox();
+        });
+
+        // Keyboard navigation while open.
+        dialog.addEventListener('keydown', (ev) => {
+            if (ev.key === 'ArrowLeft') {
+                ev.preventDefault();
+                activeCarousel?.goToPrevSlide();
+            } else if (ev.key === 'ArrowRight') {
+                ev.preventDefault();
+                activeCarousel?.goToNextSlide();
+            }
+        });
+
+        // Touch/swipe support inside the lightbox.
+        let startX = 0;
+        let startY = 0;
+        let isTracking = false;
+        let isHorizontalSwipe = false;
+        dialog.addEventListener('touchstart', (e: TouchEvent) => {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            isTracking = true;
+            isHorizontalSwipe = false;
+        }, { passive: true });
+        dialog.addEventListener('touchmove', (e: TouchEvent) => {
+            if (!isTracking) return;
+            const diffX = startX - e.touches[0].clientX;
+            const diffY = startY - e.touches[0].clientY;
+            if (!isHorizontalSwipe && Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
+                isHorizontalSwipe = true;
+            }
+        }, { passive: true });
+        dialog.addEventListener('touchend', (e: TouchEvent) => {
+            if (!isTracking) return;
+            const diffX = startX - e.changedTouches[0].clientX;
+            const threshold = 50;
+            if (isHorizontalSwipe && Math.abs(diffX) > threshold) {
+                if (diffX > 0) activeCarousel?.goToNextSlide();
+                else activeCarousel?.goToPrevSlide();
+            }
+            isTracking = false;
+            isHorizontalSwipe = false;
+        }, { passive: true });
+
+        // Track which carousel owns the dialog while open, and clear the image
+        // so a stale frame doesn't flash on the next open.
+        dialog.addEventListener('close', () => {
+            activeCarousel = null;
+            image.removeAttribute('src');
+            image.alt = '';
+        });
+
+        sharedLightbox = dialog;
+        sharedLightboxImage = image;
+        return { dialog, image };
+    }
+
     class CarouselGallery extends HTMLElement {
         currentSlide = 0;
         slides: Array<HTMLImageElement> = [];
-        autoplayInterval = null;
-        isAutoplayEnabled = false;
 
         connectedCallback() {
             this.init();
@@ -32,7 +120,7 @@
             const carouselHTML = `
                 <div class="carousel-container">
                     <div class="carousel-track">
-                        ${this.slides.map((img, index) => `
+                        ${this.slides.map((img) => `
                             <div class="carousel-slide">
                                 ${img.outerHTML}
                             </div>
@@ -52,18 +140,51 @@
             this.insertAdjacentHTML('afterbegin', carouselHTML);
         }
 
+        openLightbox() {
+            const { dialog } = ensureLightbox();
+            activeCarousel = this;
+            this.syncLightboxImage();
+            dialog.showModal();
+        }
+
+        closeLightbox() {
+            sharedLightbox?.close();
+        }
+
+        isLightboxOpen(): boolean {
+            return activeCarousel === this && !!sharedLightbox?.open;
+        }
+
+        syncLightboxImage() {
+            if (!sharedLightboxImage) return;
+            const current = this.slides[this.currentSlide];
+            if (!current) return;
+            sharedLightboxImage.src = current.src;
+            sharedLightboxImage.alt = current.alt;
+        }
+
         setupEventListeners() {
             // Navigation buttons
-            const prevButton = this.querySelector('.carousel-nav.prev');
-            const nextButton = this.querySelector('.carousel-nav.next');
+            const prevButton = this.querySelector<HTMLButtonElement>('.carousel-nav.prev');
+            const nextButton = this.querySelector<HTMLButtonElement>('.carousel-nav.next');
 
-            prevButton.addEventListener('click', () => this.goToPrevSlide());
-            nextButton.addEventListener('click', () => this.goToNextSlide());
+            prevButton?.addEventListener('click', () => this.goToPrevSlide());
+            nextButton?.addEventListener('click', () => this.goToNextSlide());
 
             // Indicators
-            const indicators = this.querySelectorAll('.carousel-indicator');
+            const indicators = this.querySelectorAll<HTMLButtonElement>('.carousel-indicator');
             indicators.forEach((indicator, index) => {
                 indicator.addEventListener('click', () => this.goToSlide(index));
+            });
+
+            // Open lightbox on slide image click
+            const slideImages = this.querySelectorAll<HTMLImageElement>('.carousel-slide img');
+            slideImages.forEach((img, index) => {
+                img.style.cursor = 'zoom-in';
+                img.addEventListener('click', () => {
+                    this.goToSlide(index);
+                    this.openLightbox();
+                });
             });
 
             // Keyboard navigation
@@ -85,18 +206,23 @@
         }
 
         setupTouchEvents() {
-            const track = this.querySelector('.carousel-track');
+            const track = this.querySelector<HTMLElement>('.carousel-track');
+            if (!track) return;
+
             let startX = 0;
             let startY = 0;
             let isTracking = false;
+            let isHorizontalSwipe = false;
 
-            track.addEventListener('touchstart', (e) => {
+            track.addEventListener('touchstart', (e: TouchEvent) => {
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
                 isTracking = true;
+                isHorizontalSwipe = false;
             }, { passive: true });
 
-            track.addEventListener('touchmove', (e) => {
+            // Non-passive so we can preventDefault once we know the gesture is horizontal.
+            track.addEventListener('touchmove', (e: TouchEvent) => {
                 if (!isTracking) return;
 
                 const currentX = e.touches[0].clientX;
@@ -104,20 +230,24 @@
                 const diffX = startX - currentX;
                 const diffY = startY - currentY;
 
-                // If horizontal swipe is more significant than vertical
-                if (Math.abs(diffX) > Math.abs(diffY)) {
+                // Lock direction once the gesture is unambiguous, then keep blocking page scroll.
+                if (!isHorizontalSwipe && Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
+                    isHorizontalSwipe = true;
+                }
+
+                if (isHorizontalSwipe) {
                     e.preventDefault();
                 }
             }, { passive: false });
 
-            track.addEventListener('touchend', (e) => {
+            track.addEventListener('touchend', (e: TouchEvent) => {
                 if (!isTracking) return;
 
                 const endX = e.changedTouches[0].clientX;
                 const diffX = startX - endX;
                 const threshold = 50;
 
-                if (Math.abs(diffX) > threshold) {
+                if (isHorizontalSwipe && Math.abs(diffX) > threshold) {
                     if (diffX > 0) {
                         this.goToNextSlide();
                     } else {
@@ -126,6 +256,7 @@
                 }
 
                 isTracking = false;
+                isHorizontalSwipe = false;
             }, { passive: true });
         }
 
@@ -139,14 +270,14 @@
             this.updateSlide();
         }
 
-        goToSlide(index) {
+        goToSlide(index: number) {
             this.currentSlide = index;
             this.updateSlide();
         }
 
         updateSlide() {
-            const track = this.querySelector('.carousel-track');
-            const indicators = this.querySelectorAll('.carousel-indicator');
+            const track = this.querySelector<HTMLElement>('.carousel-track');
+            const indicators = this.querySelectorAll<HTMLButtonElement>('.carousel-indicator');
 
             if (track) {
                 track.style.transform = `translateX(-${this.currentSlide * 100}%)`;
@@ -156,6 +287,11 @@
             indicators.forEach((indicator, index) => {
                 indicator.classList.toggle('active', index === this.currentSlide);
             });
+
+            // Keep lightbox image in sync if it's currently open
+            if (this.isLightboxOpen()) {
+                this.syncLightboxImage();
+            }
 
             // Update aria-live region for screen readers
             this.setAttribute('aria-live', 'polite');
@@ -276,6 +412,80 @@
         display: none;
     }
 
+    /* Lightbox */
+    dialog.carousel-lightbox {
+        padding: 0;
+        border: none;
+        background: transparent;
+        width: 100dvw;
+        max-width: 100dvw;
+        height: 100dvh;
+        max-height: 100dvh;
+        margin: 0;
+        color: white;
+        overflow: hidden;
+    }
+
+    dialog.carousel-lightbox::backdrop {
+        background: rgba(0, 0, 0, 0.92);
+    }
+
+    dialog.carousel-lightbox .carousel-lightbox-image {
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        max-width: 95dvw;
+        max-height: 95dvh;
+        object-fit: contain;
+        touch-action: pinch-zoom;
+        user-select: none;
+    }
+
+    dialog.carousel-lightbox .carousel-lightbox-nav,
+    dialog.carousel-lightbox .carousel-lightbox-close {
+        position: absolute;
+        background: rgba(0, 0, 0, 0);
+        color: white;
+        border: none;
+        cursor: pointer;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s;
+    }
+
+    dialog.carousel-lightbox .carousel-lightbox-nav {
+        top: 50%;
+        transform: translateY(-50%);
+        width: 60px;
+        height: 60px;
+        font-size: 2.5rem;
+    }
+
+    dialog.carousel-lightbox .carousel-lightbox-nav.prev {
+        left: 1rem;
+    }
+
+    dialog.carousel-lightbox .carousel-lightbox-nav.next {
+        right: 1rem;
+    }
+
+    dialog.carousel-lightbox .carousel-lightbox-nav:hover,
+    dialog.carousel-lightbox .carousel-lightbox-close:hover {
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    dialog.carousel-lightbox .carousel-lightbox-close {
+        top: 1rem;
+        right: 1rem;
+        width: 44px;
+        height: 44px;
+        font-size: 2rem;
+        line-height: 1;
+        border-radius: 50%;
+    }
+
     @media (max-width: 768px) {
         carousel-gallery .carousel-container {
             position: relative;
@@ -295,6 +505,12 @@
         
         carousel-gallery .carousel-nav.next {
             right: 10px;
+        }
+
+        dialog.carousel-lightbox .carousel-lightbox-nav {
+            width: 44px;
+            height: 44px;
+            font-size: 2rem;
         }
     }
 </style>
