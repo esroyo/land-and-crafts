@@ -15,7 +15,7 @@ const coordinatesMax = projects.map(p => p.data.coordinates).reduce((acc, cur) =
 const coordinatesMin = projects.map(p => p.data.coordinates).reduce((acc, cur) => [Math.min(acc[0], cur[0]), Math.min(acc[1], cur[1])], [+Infinity, +Infinity]);
 const coordinates = [((coordinatesMax[0] - coordinatesMin[0]) / 2) + coordinatesMin[0], ((coordinatesMax[1] - coordinatesMin[1]) / 2) + coordinatesMin[1]];
 const backgroundColor = '#182121';
-const secondaryBackgroundColor = '#324242';
+const secondaryBackgroundColor = '#465c5c';
 ---
 
 <Layout>
@@ -43,10 +43,11 @@ const secondaryBackgroundColor = '#324242';
 </Layout>
 
 <script>
-    import { Map, TileLayer } from 'leaflet';
+    import { Map, TileLayer, Control } from 'leaflet';
     import { TILES_URL, getZoom, isMobile } from '../common.ts';
 
-    const map = new Map(mapSection).setView(mapSection.dataset.initialCoordinates.split(','), getZoom());
+    const map = new Map(mapSection, { zoomControl: false }).setView(mapSection.dataset.initialCoordinates.split(','), getZoom());
+    new Control.Zoom({ position: 'topright' }).addTo(map);
     const tile = new TileLayer(`${TILES_URL}/{z}/{x}/{y}.png`, {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
